@@ -3,6 +3,10 @@ import styled from "styled-components";
 import { Form, Button } from "react-bootstrap";
 
 export default function Login() {
+    const [id, setId] = useState("");
+    const [pwd, setPwd] = useState("");
+
+
     return (
         <Empty className="container">
             <h1>로그인</h1>

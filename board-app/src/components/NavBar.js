@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 var navColor = { backgroundColor: "#24a19c" };
 export default function NavBar() {
+
     return (
         <NavigationBar expand={false}>
             <NavContainer>
@@ -16,7 +17,7 @@ export default function NavBar() {
                 >
                     <Offcanvas.Header closeButton style={navColor}>
                         <Offcanvas.Title id="offcanvasNavbarLabel">
-                            PLANNER
+                            BOARD
                         </Offcanvas.Title>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
@@ -34,7 +35,7 @@ export default function NavBar() {
                             textDecoration: "inherit",
                         }}
                     >
-                        PLANNER
+                        게시판
                     </Link>
                 </NavTitle>
                 <Navbar.Brand>
