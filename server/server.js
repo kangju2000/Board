@@ -34,7 +34,7 @@ app.post("/register", (req, res) => {
     const user = new User(req.body);
     user.save((err, userInfo) => {
         if (err) return res.json({ success: false, err });
-        return res.status(200).json({
+        return res.status(200).json({  //200은 성공
             success: true,
         });
     });
@@ -48,8 +48,8 @@ app.post("/api/users/login", (req, res) => {
                 message: "이메일에 해당하는 유저가 없습니다.",
             });
         }
-
-        user.comparePassword(req.body.password, (err, isMatch) => {
+        //comparePassword는 이름 변경 가능한 메소드
+        user.comparePassword(req.body.password, (err, isMatch) => {  
             if (!isMatch)
                 return res.json({
                     loginSuccess: false,

@@ -41,11 +41,11 @@ const userSchema = mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 module.exports = { User };
 
-userSchema.pre("save", function (next) {
+userSchema.pre("save", function (next) {  // 저장하기전에 실행할 코드
     var user = this;
-    if (user.isModified("password")) {
+    if (user.isModified("password")) {  //비밀번호가 변경될때만
         bcrypt.genSalt(saltRounds, function (err, salt) {
-            if (err) return next(err);
+            if (err) return next(err);  // next는 바로 /register로 넘어감
             bcrypt.hash(user.password, salt, function (err, hash) {
                 if (err) return next(err);
                 user.password = hash;
