@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect } from "react";
-import styled from "styled-components";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
 
