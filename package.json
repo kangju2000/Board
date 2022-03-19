@@ -1,8 +1,9 @@
 {
     "scripts": {
-        "server": "cd server && nodemon server",
+        "start": "nodemon server/index.js",
+        "server": "cd server && nodemon index",
         "client": "cd board-app && npm start",
-        "start": "concurrently \"npm run server\" \"npm run client\""
+        "dev": "concurrently \"npm run server\" \"npm run client\""
     },
     "dependencies": {
         "bcrypt": "^5.0.1",

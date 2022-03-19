@@ -1,14 +1,16 @@
 import axios from "axios";
 import { useEffect } from "react";
-import Login from "./components/Login";
-import NavBar from "./components/NavBar";
+import { Route, Routes } from "react-router-dom";
+import LoginPage from "./components/views/LoginPage/LoginPage";
+import NavBar from "./components/views/NavBar/NavBar";
+import LandingPage from "./components/views/LandingPage/LandingPage";
 
-function App() {
+function App(props) {
     const callApi = async () => {
         axios
-            .get("/api")
+            .get("/api/hello")
             .then((res) => {
-                console.log(res.data.test);
+                console.log(res.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -22,9 +24,10 @@ function App() {
     return (
         <>
             <NavBar />
-            <div>
-                <Login />
-            </div>
+            <Routes>
+                <Route exact path="/" element={<LandingPage />} />
+                <Route path="/login" element={<LoginPage />} />
+            </Routes>
         </>
     );
 }
