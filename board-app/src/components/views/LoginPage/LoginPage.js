@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch, userDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage(props) {
     const dispatch = useDispatch();
