@@ -28,7 +28,7 @@ function LoginPage(props) {
 
         dispatch(loginUser(user)).then((res) => {
             if (res.payload.loginSuccess) {
-                navigate('/board');
+                navigate("/board");
             } else {
                 alert("Error");
             }

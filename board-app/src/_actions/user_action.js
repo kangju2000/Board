@@ -1,4 +1,4 @@
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { LOGIN_USER, REGISTER_USER, AUTH_USER } from "./types";
 
 export function loginUser(dataToSubmit) {
@@ -24,9 +24,7 @@ export function RegisterUser(dataToSubmit) {
 }
 
 export function auth() {
-    const request = axios
-        .get("/api/users/auth")
-        .then((res) => res.data);
+    const request = axios.get("/api/users/auth").then((res) => res.data);
 
     return {
         type: AUTH_USER,

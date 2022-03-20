@@ -6,7 +6,7 @@ import NavBar from "./components/views/NavBar/NavBar";
 import LandingPage from "./components/views/LandingPage/LandingPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import BoardPage from "./components/views/BoardPage/BoardPage";
-
+import PrivateRoute from "./hoc/PrivateRoute";
 
 export default function App(props) {
     const callApi = async () => {
@@ -32,6 +32,15 @@ export default function App(props) {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/board" element={<BoardPage />} />
+                
+                {/* <Route
+                    path="/board"
+                    element={
+                        <PrivateRoute>
+                            <BoardPage />
+                        </PrivateRoute>
+                    }
+                ></Route> */}
             </Routes>
         </>
     );
