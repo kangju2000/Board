@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navbar, Nav, Offcanvas } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-var navColor = { backgroundColor: "#24a19c" };
+var navColor = { backgroundColor: "#ffffff" };
 export default function NavBar() {
+    // const [toggle, setToggle] = useState(false); //사이드 링크 클릭시 사이드바 닫히도록 설정
 
     return (
         <NavigationBar expand={false}>
             <NavContainer>
-                <NavSideBtn aria-controls="offcanvasNavbar" />
+                {/* <NavSideBtn aria-controls="offcanvasNavbar" />
                 <SideBar
                     id="offcanvasNavbar"
                     aria-labelledby="offcanvasNavbarLabel"
@@ -22,25 +23,25 @@ export default function NavBar() {
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Nav className="justify-content-end flex-grow-1 pe-3">
-                            <Nav.Link href="#action1">ㅇㅇ</Nav.Link>
-                            <Nav.Link href="#action2">ㅎㅎ</Nav.Link>
+                            <NavLink to="/login">로그인</NavLink>
+                            <NavLink to="/register">회원가입</NavLink>
                         </Nav>
                     </Offcanvas.Body>
-                </SideBar>
+                </SideBar> */}
                 <NavTitle>
-                    <Link
-                        to="/"
-                        style={{
-                            color: "inherit",
-                            textDecoration: "inherit",
-                        }}
-                    >
-                        게시판
-                    </Link>
+                    <NavLink to="/">📋게시판</NavLink>
                 </NavTitle>
-                <Navbar.Brand>
-                    <NavLoginBtn>로그인</NavLoginBtn>
-                </Navbar.Brand>
+                <NavRight>
+                    <NavLink to="/">
+                        <NavLoginBtn>쓰기</NavLoginBtn>
+                    </NavLink>
+                    <NavLink to="/">
+                        <NavLoginBtn>수정</NavLoginBtn>
+                    </NavLink>
+                    <NavLink to="/login">
+                        <NavLoginBtn>로그인</NavLoginBtn>
+                    </NavLink>
+                </NavRight>
             </NavContainer>
         </NavigationBar>
     );
@@ -54,23 +55,33 @@ const NavigationBar = styled(Navbar)`
 `;
 const NavContainer = styled.div`
     width: 100%;
+    height: inherit;
     display: flex;
     justify-content: space-between;
     align-items: center;
 `;
-const NavSideBtn = styled(Navbar.Toggle)`
-    border: 0 !important;
-`;
-const SideBar = styled(Navbar.Offcanvas)`
-    width: 250px;
-    background-color: #faeee7;
-`;
+// const NavSideBtn = styled(Navbar.Toggle)`
+//     border: 0 !important;
+// `;
+// const SideBar = styled(Navbar.Offcanvas)`
+//     width: 250px;
+// `;
 const NavTitle = styled(Navbar.Brand)`
-    cursor: pointer;
+    flex-grow: 1;
     font-size: 25px;
+    padding-left: 30px;
 `;
+
+const NavRight = styled(Navbar.Brand)``;
+
 const NavLoginBtn = styled.button`
     border: none;
     background-color: inherit;
     display: inline-block;
+`;
+
+const NavLink = styled(Link)`
+    color: black !important;
+    text-decoration: none;
+    cursor: pointer;
 `;
