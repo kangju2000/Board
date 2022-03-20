@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useDispatch, userDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
+import Auth from "../../../hoc/auth";
 
-export default function LoginPage(props) {
+function LoginPage(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [Email, setEmail] = useState("");
@@ -27,7 +28,7 @@ export default function LoginPage(props) {
 
         dispatch(loginUser(user)).then((res) => {
             if (res.payload.loginSuccess) {
-                navigate(-1);
+                navigate('/board');
             } else {
                 alert("Error");
             }
@@ -56,6 +57,9 @@ export default function LoginPage(props) {
         </MainDiv>
     );
 }
+
+export default Auth(LoginPage, false);
+
 const MainDiv = styled.div`
     width: 100%;
     height: 100vh;

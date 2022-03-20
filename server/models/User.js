@@ -19,10 +19,6 @@ const userSchema = mongoose.Schema({
         type: String,
         minlength: 5,
     },
-    lastname: {
-        type: String,
-        maxlength: 50,
-    },
     role: {
         type: Number, // 1이면 관리자, 0은 일반
         default: 0,

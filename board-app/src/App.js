@@ -7,7 +7,8 @@ import LandingPage from "./components/views/LandingPage/LandingPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import BoardPage from "./components/views/BoardPage/BoardPage";
 
-function App(props) {
+
+export default function App(props) {
     const callApi = async () => {
         axios
             .get("/api/hello")
@@ -35,5 +36,3 @@ function App(props) {
         </>
     );
 }
-
-export default App;

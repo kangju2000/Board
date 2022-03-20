@@ -3,7 +3,6 @@ import { Navbar, Nav, Offcanvas } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-var navColor = { backgroundColor: "#ffffff" };
 export default function NavBar() {
     // const [toggle, setToggle] = useState(false); //사이드 링크 클릭시 사이드바 닫히도록 설정
 
@@ -32,11 +31,8 @@ export default function NavBar() {
                     <NavLink to="/">📋게시판</NavLink>
                 </NavTitle>
                 <NavRight>
-                    <NavLink to="/">
-                        <NavLoginBtn>쓰기</NavLoginBtn>
-                    </NavLink>
-                    <NavLink to="/">
-                        <NavLoginBtn>수정</NavLoginBtn>
+                    <NavLink to="/register">
+                        <NavLoginBtn>회원가입</NavLoginBtn>
                     </NavLink>
                     <NavLink to="/login">
                         <NavLoginBtn>로그인</NavLoginBtn>
@@ -51,7 +47,7 @@ const NavigationBar = styled(Navbar)`
     width: 100%;
     position: sticky;
     top: 0;
-    ${navColor}
+    background-color: white;
 `;
 const NavContainer = styled.div`
     width: 100%;

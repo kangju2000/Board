@@ -1,38 +1,51 @@
 import React from "react";
+import axios from "axios";
 import styled from "styled-components";
-import { BodyColor } from "../../../styles/theme";
+import { BodyColor, DefaultDiv } from "../../../styles/styles";
+import Auth from "../../../hoc/auth";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 library.add(faCircleUser);
 
-export default function BoardPage() {
+function BoardPage() {
+    const navigate = useNavigate();
+    const onClickHandler = () => {
+        axios.get("/api/users/logout").then((res) => {
+            console.log(res.data);
+            navigate("/");
+        });
+    };
     return (
-        <MainDiv>
-            <SideDiv>
-                <TitleDiv>
-                    <h2>목록</h2>
-                </TitleDiv>
-            </SideDiv>
-            <MainContentsDiv>
-                <TitleDiv>
-                    <h2>자유게시판</h2>
-                </TitleDiv>
-                <button>글쓰기</button>
-            </MainContentsDiv>
-            <ProfileDiv>
-                <TitleDiv>
-                    <h2>프로필</h2>
-                </TitleDiv>
-                <FontAwesomeIcon icon="circle-user" size="7x" />
-            </ProfileDiv>
-        </MainDiv>
+        <>
+            <button onClick={onClickHandler}>로그아웃</button>
+            <MainDiv>
+                <SideDiv>
+                    <TitleDiv>
+                        <h2>목록</h2>
+                    </TitleDiv>
+                </SideDiv>
+                <MainContentsDiv>
+                    <TitleDiv>
+                        <h2>자유게시판</h2>
+                    </TitleDiv>
+                    <button>글쓰기</button>
+                </MainContentsDiv>
+                <ProfileDiv>
+                    <TitleDiv>
+                        <h2>프로필</h2>
+                    </TitleDiv>
+                    <FontAwesomeIcon icon="circle-user" size="7x" />
+                </ProfileDiv>
+            </MainDiv>
+        </>
     );
 }
 
-const MainDiv = styled.div`
-    width: 100%;
-    height: 100vh;
+export default Auth(BoardPage, true);
+
+const MainDiv = styled(DefaultDiv)`
     padding: 30px;
     display: flex;
     text-align: center;
