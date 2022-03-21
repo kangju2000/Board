@@ -1,6 +1,7 @@
 {
     "scripts": {
-        "start": "concurrently \"npm run server\" \"npm run client\"",
+        "start": "npm run server",
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
         "server": "cd server && nodemon index",
         "client": "cd board-app && npm start",
         "heroku-postbuild": "cd board-app && npm install && npm run build"
