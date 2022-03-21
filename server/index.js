@@ -16,11 +16,14 @@ const config = require("../config/key");
 
 const mongoose = require("mongoose");
 mongoose
-    .connect(config.mongoURI, {
-        dbName: "board",
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
+    .connect(
+        "mongodb+srv://kangju2000:q1w2e3@cluster0.ierul.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+        {
+            dbName: "board",
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        }
+    )
     .then(() => console.log("MongoDB Connected..."))
     .catch((err) => console.log(err));
 
