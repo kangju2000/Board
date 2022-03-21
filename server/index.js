@@ -32,8 +32,8 @@ app.use("/api", test);
 app.get("/api/hello", (req, res) => {
     res.send("하이요");
 });
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
+app.listen(process.env.PORT || 5000, () => {
+    console.log(`Listening on port ${process.env.PORT}`);
 });
 
 app.post("/api/users/register", (req, res) => {
