@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "start": "nodemon server/index.js",
+        "start": "concurrently \"npm run server\" \"npm run client\"",
         "server": "cd server && nodemon index",
         "client": "cd board-app && npm start",
         "dev": "concurrently \"npm run server\" \"npm run client\""
