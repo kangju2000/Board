@@ -16,14 +16,11 @@ const config = require("../config/key");
 
 const mongoose = require("mongoose");
 mongoose
-    .connect(
-        "mongodb+srv://kangju2000:q1w2e3@cluster0.ierul.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-        {
-            dbName: "board",
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        }
-    )
+    .connect(config.mongoURI, {
+        dbName: "board",
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
     .then(() => console.log("MongoDB Connected..."))
     .catch((err) => console.log(err));
 
@@ -33,7 +30,7 @@ app.get("/api/hello", (req, res) => {
     res.send("하이요");
 });
 app.listen(process.env.PORT || 5000, () => {
-    console.log(`Listening on port ${process.env.PORT}`);
+    console.log(`Listening on port ${process.env.PORT || 5000}`);
 });
 
 app.post("/api/users/register", (req, res) => {
