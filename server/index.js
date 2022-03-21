@@ -27,11 +27,11 @@ mongoose
 
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, "../board-app/build")));
+app.use(express.static(path.join(__dirname, "../board-app/public")));
 
-// app.get("*", function (req, res) {
-//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-// });
+app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/public/index.html"));
+});
 
 app.use("/api", test);
 app.get("/api/hello", (req, res) => {
