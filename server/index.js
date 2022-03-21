@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const app = express();
 const test = require("./routes/test");
 const { User } = require("./models/User");
@@ -25,6 +26,13 @@ mongoose
     .catch((err) => console.log(err));
 
 app.use(cors());
+
+app.use(express.static(path.join(__dirname, "board-app/build")));
+
+app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "/board-app/build/index.html"));
+});
+
 app.use("/api", test);
 app.get("/api/hello", (req, res) => {
     res.send("하이요");
