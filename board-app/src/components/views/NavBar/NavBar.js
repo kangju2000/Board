@@ -28,9 +28,12 @@ export default function NavBar() {
                     </Offcanvas.Body>
                 </SideBar> */}
                 <NavTitle>
-                    <NavLink to="/">📋게시판</NavLink>
+                    <NavLink to="/">📋</NavLink>
                 </NavTitle>
                 <NavRight>
+                    <NavLink to="/board">
+                        <NavLoginBtn>게시판</NavLoginBtn>
+                    </NavLink>
                     <NavLink to="/register">
                         <NavLoginBtn>회원가입</NavLoginBtn>
                     </NavLink>

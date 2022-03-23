@@ -41,7 +41,10 @@ app.get("/register", function (req, res) {
 app.get("/login", function (req, res) {
     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
 });
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3b47e8c4489c41ab3a1607e67fe74f7ed602e383
 app.use("/api", test);
 app.get("/api/hello", (req, res) => {
     res.send("하이요");
