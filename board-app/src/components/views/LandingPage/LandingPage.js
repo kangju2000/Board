@@ -7,7 +7,7 @@ import { Button } from "antd";
 import { Link } from "react-router-dom";
 
 
-function LandingPage(props) {
+function LandingPage() {
     return (
         <MainDiv>
             <Header>
@@ -18,7 +18,6 @@ function LandingPage(props) {
                 <Link to="/board">
                     <Button type="primary">게시판 이동</Button>
                 </Link>
-                <p>{}</p>
             </Content>
         </MainDiv>
     );

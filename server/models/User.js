@@ -25,6 +25,7 @@ const userSchema = mongoose.Schema({
     intro: {
         type: String,
         maxlength: 100,
+        default: "",
     },
     role: {
         type: Number, // 1이면 관리자, 0은 일반

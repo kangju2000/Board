@@ -37,7 +37,10 @@ function BoardPage() {
                         <h2>프로필</h2>
                     </TitleDiv>
                     <UserOutlined style={{ fontSize: "100px" }} />
+                    <p>{user.email}</p>
                     <p>{user.name}</p>
+                    <br />
+                    <p>{user.intro}</p>
                 </ProfileDiv>
             </MainDiv>
         </DefaultDiv>
