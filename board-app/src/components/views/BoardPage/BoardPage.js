@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { BodyColor, DefaultDiv } from "../../../styles/styles";
 import Auth from "../../../hoc/auth";
+import { auth } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-library.add(faCircleUser);
+import { UserOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 
 function BoardPage() {
     const navigate = useNavigate();
@@ -17,8 +16,9 @@ function BoardPage() {
             navigate("/");
         });
     };
+    const user = useSelector((state) => state.user.userData);
     return (
-        <>
+        <DefaultDiv>
             <button onClick={onClickHandler}>로그아웃</button>
             <MainDiv>
                 <SideDiv>
@@ -36,10 +36,11 @@ function BoardPage() {
                     <TitleDiv>
                         <h2>프로필</h2>
                     </TitleDiv>
-                    <FontAwesomeIcon icon="circle-user" size="7x" />
+                    <UserOutlined style={{ fontSize: "100px" }} />
+                    <p>{user.name}</p>
                 </ProfileDiv>
             </MainDiv>
-        </>
+        </DefaultDiv>
     );
 }
 

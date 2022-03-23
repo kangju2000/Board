@@ -4,28 +4,16 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
 import Auth from "../../../hoc/auth";
+import { Form, Input, Button, Checkbox } from "antd";
 
 function LoginPage(props) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [Email, setEmail] = useState("");
-    const [Password, setPassword] = useState("");
-
-    const onEmailHandler = (e) => {
-        setEmail(e.currentTarget.value);
-    };
-
-    const onPwdHandler = (e) => {
-        setPassword(e.currentTarget.value);
-    };
-
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
+    const onSubmitHandler = (values) => {
         let user = {
-            email: Email,
-            password: Password,
+            email: values.email,
+            password: values.password,
         };
-
         dispatch(loginUser(user)).then((res) => {
             if (res.payload.loginSuccess) {
                 navigate("/board");
@@ -36,24 +24,68 @@ function LoginPage(props) {
     };
     return (
         <MainDiv>
-            <FormDiv onSubmit={onSubmitHandler}>
-                <label>이메일</label>
-                <input
-                    type="email"
-                    value={Email}
-                    placeholder="이메일"
-                    onChange={onEmailHandler}
-                />
+            <Form
+                name="basic"
+                labelCol={{
+                    span: 8,
+                }}
+                wrapperCol={{
+                    span: 16,
+                }}
+                initialValues={{
+                    remember: true,
+                }}
+                onFinish={onSubmitHandler}
+                autoComplete="off"
+            >
+                <Form.Item
+                    label="email"
+                    name="email"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Please input your email!",
+                        },
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
 
-                <label>비밀번호</label>
-                <input
-                    type="password"
-                    value={Password}
-                    placeholder="비밀번호"
-                    onChange={onPwdHandler}
-                />
-                <button>로그인</button>
-            </FormDiv>
+                <Form.Item
+                    label="Password"
+                    name="password"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Please input your password!",
+                        },
+                    ]}
+                >
+                    <Input.Password />
+                </Form.Item>
+
+                <Form.Item
+                    name="remember"
+                    valuePropName="checked"
+                    wrapperCol={{
+                        offset: 8,
+                        span: 16,
+                    }}
+                >
+                    <Checkbox>Remember me</Checkbox>
+                </Form.Item>
+
+                <Form.Item
+                    wrapperCol={{
+                        offset: 8,
+                        span: 16,
+                    }}
+                >
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
+                </Form.Item>
+            </Form>
         </MainDiv>
     );
 }

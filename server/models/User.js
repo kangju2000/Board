@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const userSchema = mongoose.Schema({
     name: {
         type: String,
-        maxlength: 50,
+        maxlength: 8,
     },
     email: {
         type: String,
@@ -18,6 +18,13 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         minlength: 5,
+    },
+    gender: {
+        type: String,
+    },
+    intro: {
+        type: String,
+        maxlength: 100,
     },
     role: {
         type: Number, // 1이면 관리자, 0은 일반
