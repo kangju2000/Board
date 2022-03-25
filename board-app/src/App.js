@@ -28,19 +28,31 @@ export default function App(props) {
         <>
             <NavBar />
             <Routes>
-                <Route exact path="/" element={<LandingPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/board" element={<BoardPage />} />
-                
-                {/* <Route
+                <Route exact path="/" element={<LandingPage option={null} />} />
+                <Route
+                    path="/login"
+                    element={
+                        <PrivateRoute>
+                            <LoginPage option={false} />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/register"
+                    element={
+                        <PrivateRoute>
+                            <RegisterPage option={false} />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
                     path="/board"
                     element={
                         <PrivateRoute>
-                            <BoardPage />
+                            <BoardPage option={true} />
                         </PrivateRoute>
                     }
-                ></Route> */}
+                />
             </Routes>
         </>
     );

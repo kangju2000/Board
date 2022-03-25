@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
         height:100vh;
         margin: 0;
         box-sizing: border-box;
-        overflow-y: hidden;
+        overflow-x: hidden;
         background-color: ${BodyColor};
     }
     p {

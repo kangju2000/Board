@@ -4,6 +4,7 @@ const path = require("path");
 const app = express();
 const test = require("./routes/test");
 const { User } = require("./models/User");
+const { List } = require("./models/List");
 const { auth } = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
 
@@ -27,20 +28,20 @@ mongoose
 
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, "../board-app/build")));
+// app.use(express.static(path.join(__dirname, "../board-app/build")));
 
-app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-});
-app.get("/board", function (req, res) {
-    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-});
-app.get("/register", function (req, res) {
-    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-});
-app.get("/login", function (req, res) {
-    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-});
+// app.get("/", function (req, res) {
+//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+// });
+// app.get("/board", function (req, res) {
+//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+// });
+// app.get("/register", function (req, res) {
+//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+// });
+// app.get("/login", function (req, res) {
+//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+// });
 app.use("/api", test);
 app.get("/api/hello", (req, res) => {
     res.send("하이요");
@@ -54,7 +55,16 @@ app.post("/api/users/register", (req, res) => {
     user.save((err, userInfo) => {
         if (err) return res.json({ success: false, err });
         return res.status(200).json({
-            //200은 성공
+            success: true,
+        });
+    });
+});
+
+app.post("/api/users/add", (req, res) => {
+    const list = new List(req.body);
+    list.save((err, userInfo) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).json({
             success: true,
         });
     });

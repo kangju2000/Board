@@ -1,44 +1,47 @@
-const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 
-const userSchema = mongoose.Schema({
-    name: {
-        type: String,
-        maxlength: 8,
+const userSchema = mongoose.Schema(
+    {
+        name: {
+            type: String,
+            maxlength: 8,
+        },
+        email: {
+            type: String,
+            trim: true, // 스페이스와 같은 공백을 없애주는 역할
+            unique: 1, // 똑같은 이메일을 쓰지 못하도록하는 역할
+        },
+        password: {
+            type: String,
+            minlength: 5,
+        },
+        gender: {
+            type: String,
+        },
+        intro: {
+            type: String,
+            maxlength: 100,
+            default: "",
+        },
+        role: {
+            type: Number, // 1이면 관리자, 0은 일반
+            default: 0,
+        },
+        image: String,
+        token: {
+            type: String,
+        },
+        tokenExp: {
+            type: Number,
+        },
     },
-    email: {
-        type: String,
-        trim: true, // 스페이스와 같은 공백을 없애주는 역할
-        unique: 1, // 똑같은 이메일을 쓰지 못하도록하는 역할
-    },
-    password: {
-        type: String,
-        minlength: 5,
-    },
-    gender: {
-        type: String,
-    },
-    intro: {
-        type: String,
-        maxlength: 100,
-        default: "",
-    },
-    role: {
-        type: Number, // 1이면 관리자, 0은 일반
-        default: 0,
-    },
-    image: String,
-    token: {
-        type: String,
-    },
-    tokenExp: {
-        type: Number,
-    },
-});
+    {
+        collection: "users",
+    }
+);
 
 userSchema.pre("save", function (next) {
     // 저장하기전에 실행할 코드
@@ -71,11 +74,7 @@ userSchema.methods.comparePassword = function (plainPassword, cb) {
 // 로그인 - 토큰 생성
 userSchema.methods.generateToken = function (cb) {
     var user = this;
-    // jsonwebtoken을 이용해서 토큰 생성
     var token = jwt.sign(user._id.toHexString(), "secretToken");
-    // user._id + 'secretToken' = token 을 통해 토큰 생성
-    // 토큰 해석을 위해 'secretToken' 입력 -> user._id 가 나옴
-    // 토큰을 가지고 누구인지 알 수 있는 것
     user.token = token;
 
     user.save(function (err, user) {

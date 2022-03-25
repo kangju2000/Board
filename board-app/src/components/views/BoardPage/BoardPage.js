@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { BodyColor, DefaultDiv } from "../../../styles/styles";
 import Auth from "../../../hoc/auth";
-import { auth } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
-import { UserOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import { UserOutlined } from "@ant-design/icons";
+import { NavLink } from "../../../styles/styles";
 
 function BoardPage() {
+    const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
     const onClickHandler = () => {
         axios.get("/api/users/logout").then((res) => {
@@ -16,7 +17,7 @@ function BoardPage() {
             navigate("/");
         });
     };
-    const user = useSelector((state) => state.user.userData);
+
     return (
         <DefaultDiv>
             <button onClick={onClickHandler}>로그아웃</button>
@@ -30,7 +31,9 @@ function BoardPage() {
                     <TitleDiv>
                         <h2>자유게시판</h2>
                     </TitleDiv>
-                    <button>글쓰기</button>
+                    <NavLink to="/add">
+                        <button>글쓰기</button>
+                    </NavLink>
                 </MainContentsDiv>
                 <ProfileDiv>
                     <TitleDiv>
@@ -47,7 +50,7 @@ function BoardPage() {
     );
 }
 
-export default Auth(BoardPage, true);
+export default BoardPage;
 
 const MainDiv = styled(DefaultDiv)`
     padding: 30px;

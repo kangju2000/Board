@@ -13,22 +13,25 @@ export default function (SpecificComponent, option, adminRoute = null) {
         const dispatch = useDispatch();
 
         useEffect(() => {
-            dispatch(auth()).then((res) => {
-                console.log(res);
-                if (!res.payload.isAuth) {
-                    if (option) {
-                        navigate("/login");
-                    }
-                } else {
-                    if (adminRoute && !res.payload.isAdmin) {
-                        navigate("/");
+            async function ex() {
+                const A = await dispatch(auth()).then((res) => {
+                    console.log(res);
+                    if (!res.payload.isAuth) {
+                        if (option) {
+                            navigate("/login");
+                        }
                     } else {
-                        if (option === false) {
+                        if (adminRoute && !res.payload.isAdmin) {
                             navigate("/");
+                        } else {
+                            if (option === false) {
+                                navigate("/");
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
+            ex();
         }, []);
         return <SpecificComponent />;
     }

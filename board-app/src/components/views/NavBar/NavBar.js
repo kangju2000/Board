@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Navbar, Nav, Offcanvas } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { NavLink } from "../../../styles/styles";
 
 export default function NavBar() {
     // const [toggle, setToggle] = useState(false); //사이드 링크 클릭시 사이드바 닫히도록 설정
@@ -77,10 +77,4 @@ const NavLoginBtn = styled.button`
     border: none;
     background-color: inherit;
     display: inline-block;
-`;
-
-const NavLink = styled(Link)`
-    color: black !important;
-    text-decoration: none;
-    cursor: pointer;
 `;

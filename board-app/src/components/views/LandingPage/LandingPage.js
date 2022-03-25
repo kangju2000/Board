@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import Auth from "../../../hoc/auth";
 import { DefaultDiv } from "../../../styles/styles";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
-
+import { auth } from "../../../_actions/user_action";
 
 function LandingPage() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(auth()).then((res) => console.log(res));
+    }, []);
     return (
         <MainDiv>
             <Header>
@@ -39,4 +43,4 @@ const Content = styled.div`
     }
 `;
 
-export default Auth(LandingPage, null);
+export default LandingPage;
