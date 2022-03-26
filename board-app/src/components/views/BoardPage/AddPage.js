@@ -11,15 +11,13 @@ export default function AddPage() {
     const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
 
-    const onFinishHandler = (values) => {
+    const onFinishHandler = async (values) => {
         let newPost = {
             writer: user.name, // 유저가 이름 바꾸면 게시글의 name을 다 수정해야해서, id로 받는걸 추천
             title: values.title,
             content: values.content,
         };
-        console.log(newPost);
-        axios.post("/api/users/add", newPost).then((res) => {
-            console.log(res.data);
+        await axios.post("/api/users/add", newPost).then((res) => {
             navigate("/board");
         });
     };

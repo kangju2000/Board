@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const app = express();
-const test = require("./routes/test");
 const { User } = require("./models/User");
 const { List } = require("./models/List");
 const { auth } = require("./middleware/auth");
@@ -10,10 +9,11 @@ const cookieParser = require("cookie-parser");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "../board-app/build")));
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 
-const port = 5000;
 const config = require("../config/key");
 
 const mongoose = require("mongoose");
@@ -26,26 +26,22 @@ mongoose
     .then(() => console.log("MongoDB Connected..."))
     .catch((err) => console.log(err));
 
-app.use(cors());
-
-app.use(express.static(path.join(__dirname, "../board-app/build")));
-
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
 });
-// app.get("/board", function (req, res) {
-//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-// });
-// app.get("/register", function (req, res) {
-//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-// });
-// app.get("/login", function (req, res) {
-//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-// });
-app.use("/api", test);
-app.get("/api/hello", (req, res) => {
-    res.send("하이요");
+app.get("/board", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
 });
+app.get("/login", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+});
+app.get("/register", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+});
+app.get("/add", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+});
+
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Listening on port ${process.env.PORT || 5000}`);
 });
@@ -62,12 +58,16 @@ app.post("/api/users/register", (req, res) => {
 
 app.post("/api/users/add", (req, res) => {
     const list = new List(req.body);
-    console.log(list);
     list.save((err, userInfo) => {
         if (err) return res.json({ success: false, err });
         return res.status(200).json({
             success: true,
         });
+    });
+});
+app.get("/api/getpost", (req, res) => {
+    const datas = List.find({}).then((data) => {
+        res.json(data);
     });
 });
 

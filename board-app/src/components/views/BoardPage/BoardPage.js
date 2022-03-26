@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { BodyColor, DefaultDiv } from "../../../styles/styles";
-import Auth from "../../../hoc/auth";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { UserOutlined } from "@ant-design/icons";
@@ -11,12 +10,20 @@ import { NavLink } from "../../../styles/styles";
 function BoardPage() {
     const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
-    const onClickHandler = () => {
-        axios.get("/api/users/logout").then((res) => {
-            console.log(res.data);
+    const [posts, SetPosts] = useState([]);
+    const onClickHandler = async () => {
+        await axios.get("/api/users/logout").then((res) => {
             navigate("/");
         });
     };
+    const aa = async () => {
+        await axios.get("/api/getpost").then((res) => {
+            SetPosts(res.data);
+        });
+    };
+    useEffect(() => {
+        aa();
+    }, []);
 
     return (
         <DefaultDiv>
@@ -34,6 +41,9 @@ function BoardPage() {
                     <NavLink to="/add">
                         <button>글쓰기</button>
                     </NavLink>
+                    {posts.map((post) => {
+                        return <Post post={post} />;
+                    })}
                 </MainContentsDiv>
                 <ProfileDiv>
                     <TitleDiv>
@@ -51,6 +61,18 @@ function BoardPage() {
 }
 
 export default BoardPage;
+
+function Post(props) {
+    return (
+        <div>
+            <p>{props.post.writer}</p>
+            <p>{props.post.title}</p>
+            <p>{props.post.content}</p>
+            <p>{props.post.writeDate}</p>
+            <hr />
+        </div>
+    );
+}
 
 const MainDiv = styled(DefaultDiv)`
     padding: 30px;

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import Auth from "../../../hoc/auth";
 import { DefaultDiv } from "../../../styles/styles";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
