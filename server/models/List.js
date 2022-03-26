@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ListSchema = mongoose.Schema(
+const listSchema = mongoose.Schema(
     {
         writer: String,
         title: String,
@@ -8,9 +8,9 @@ const ListSchema = mongoose.Schema(
         writeDate: { type: Date, default: new Date() },
     },
     {
-        collection: "list",
+        collection: "lists",
     }
 );
 
-const List = mongoose.model("List", ListSchema);
+const List = mongoose.model("List", listSchema);
 module.exports = { List };

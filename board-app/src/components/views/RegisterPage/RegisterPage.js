@@ -37,7 +37,7 @@ function RegisterPage() {
         return Promise.resolve();
     }, []);
 
-    const onSubmitHandler = (values) => {
+    const onFinishHandler = (values) => {
         console.log(values);
         let user = {
             name: values.name,
@@ -66,7 +66,7 @@ function RegisterPage() {
             <Form
                 form={form}
                 name="register"
-                onFinish={onSubmitHandler}
+                onFinish={onFinishHandler}
                 scrollToFirstError
             >
                 <Form.Item

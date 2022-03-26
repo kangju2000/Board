@@ -28,11 +28,11 @@ mongoose
 
 app.use(cors());
 
-// app.use(express.static(path.join(__dirname, "../board-app/build")));
+app.use(express.static(path.join(__dirname, "../board-app/build")));
 
-// app.get("/", function (req, res) {
-//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-// });
+app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+});
 // app.get("/board", function (req, res) {
 //     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
 // });
@@ -62,6 +62,7 @@ app.post("/api/users/register", (req, res) => {
 
 app.post("/api/users/add", (req, res) => {
     const list = new List(req.body);
+    console.log(list);
     list.save((err, userInfo) => {
         if (err) return res.json({ success: false, err });
         return res.status(200).json({

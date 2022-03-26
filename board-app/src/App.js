@@ -1,29 +1,13 @@
-import axios from "axios";
-import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "./components/views/LoginPage/LoginPage";
 import NavBar from "./components/views/NavBar/NavBar";
 import LandingPage from "./components/views/LandingPage/LandingPage";
 import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import BoardPage from "./components/views/BoardPage/BoardPage";
+import AddPage from "./components/views/BoardPage/AddPage";
 import PrivateRoute from "./hoc/PrivateRoute";
 
 export default function App(props) {
-    const callApi = async () => {
-        axios
-            .get("/api/hello")
-            .then((res) => {
-                console.log(res.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-
-    useEffect(() => {
-        callApi();
-    }, []);
-
     return (
         <>
             <NavBar />
@@ -50,6 +34,14 @@ export default function App(props) {
                     element={
                         <PrivateRoute>
                             <BoardPage option={true} />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/add"
+                    element={
+                        <PrivateRoute>
+                            <AddPage option={true} />
                         </PrivateRoute>
                     }
                 />
