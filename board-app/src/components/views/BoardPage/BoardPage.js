@@ -5,20 +5,20 @@ import { BodyColor, DefaultDiv } from "../../../styles/styles";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { UserOutlined } from "@ant-design/icons";
-import { NavLink } from "../../../styles/styles";
+import { DefaultLink } from "../../../styles/styles";
 
 function BoardPage() {
     const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
-    const [posts, SetPosts] = useState([]);
+    const [posts, setPosts] = useState([]);
     const onClickHandler = async () => {
         await axios.get("/api/users/logout").then((res) => {
             navigate("/");
         });
     };
     const aa = async () => {
-        await axios.get("/api/getpost").then((res) => {
-            SetPosts(res.data);
+        await axios.get("/api/getposts").then((res) => {
+            setPosts(res.data);
         });
     };
     useEffect(() => {
@@ -38,11 +38,11 @@ function BoardPage() {
                     <TitleDiv>
                         <h2>자유게시판</h2>
                     </TitleDiv>
-                    <NavLink to="/add">
+                    <DefaultLink to="/add">
                         <button>글쓰기</button>
-                    </NavLink>
-                    {posts.map((post) => {
-                        return <Post post={post} />;
+                    </DefaultLink>
+                    {posts.map((post, id) => {
+                        return <Post post={post} id={id} key={id} />;
                     })}
                 </MainContentsDiv>
                 <ProfileDiv>
@@ -63,14 +63,17 @@ function BoardPage() {
 export default BoardPage;
 
 function Post(props) {
+    let url = `/posts/${props.id + 1}`;
     return (
-        <div>
-            <p>{props.post.writer}</p>
-            <p>{props.post.title}</p>
-            <p>{props.post.content}</p>
-            <p>{props.post.writeDate}</p>
-            <hr />
-        </div>
+        <DefaultLink to={url}>
+            <div>
+                <p>작성자: {props.post.writer}</p>
+                <p>제목: {props.post.title}</p>
+                <p>내용: {props.post.content}</p>
+                <p>날짜: {props.post.writeDate}</p>
+                <hr />
+            </div>
+        </DefaultLink>
     );
 }
 

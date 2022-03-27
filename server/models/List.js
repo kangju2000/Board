@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const listSchema = mongoose.Schema(
     {
+        post_id: Number,
         writer: String,
         title: String,
         content: String,

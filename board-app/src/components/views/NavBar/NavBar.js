@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Navbar, Nav, Offcanvas } from "react-bootstrap";
 import styled from "styled-components";
-import { NavLink } from "../../../styles/styles";
+import { DefaultLink } from "../../../styles/styles";
 
 export default function NavBar() {
     // const [toggle, setToggle] = useState(false); //사이드 링크 클릭시 사이드바 닫히도록 설정
@@ -22,24 +22,24 @@ export default function NavBar() {
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Nav className="justify-content-end flex-grow-1 pe-3">
-                            <NavLink to="/login">로그인</NavLink>
-                            <NavLink to="/register">회원가입</NavLink>
+                            <DefaultLink to="/login">로그인</DefaultLink>
+                            <DefaultLink to="/register">회원가입</DefaultLink>
                         </Nav>
                     </Offcanvas.Body>
                 </SideBar> */}
                 <NavTitle>
-                    <NavLink to="/">📋</NavLink>
+                    <DefaultLink to="/">📋</DefaultLink>
                 </NavTitle>
                 <NavRight>
-                    <NavLink to="/board">
+                    <DefaultLink to="/board">
                         <NavLoginBtn>게시판</NavLoginBtn>
-                    </NavLink>
-                    <NavLink to="/register">
+                    </DefaultLink>
+                    <DefaultLink to="/register">
                         <NavLoginBtn>회원가입</NavLoginBtn>
-                    </NavLink>
-                    <NavLink to="/login">
+                    </DefaultLink>
+                    <DefaultLink to="/login">
                         <NavLoginBtn>로그인</NavLoginBtn>
-                    </NavLink>
+                    </DefaultLink>
                 </NavRight>
             </NavContainer>
         </NavigationBar>

@@ -9,7 +9,7 @@ export const DefaultDiv = styled.div`
     height: 100%;
 `;
 
-export const NavLink = styled(Link)`
+export const DefaultLink = styled(Link)`
     color: black !important;
     text-decoration: none;
     cursor: pointer;

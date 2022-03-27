@@ -4,6 +4,7 @@ const path = require("path");
 const app = express();
 const { User } = require("./models/User");
 const { List } = require("./models/List");
+const { Counter } = require("./models/Counter");
 const { auth } = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
 
@@ -57,16 +58,34 @@ app.post("/api/users/register", (req, res) => {
 });
 
 app.post("/api/users/add", (req, res) => {
-    const list = new List(req.body);
-    list.save((err, userInfo) => {
-        if (err) return res.json({ success: false, err });
-        return res.status(200).json({
-            success: true,
+    let data = req.body;
+    let totalPost;
+    Counter.findOne({ name: "게시물갯수" }).then((doc) => {
+        totalPost = doc.totalPost;
+        data["post_id"] = totalPost + 1;
+        const list = new List(data);
+
+        list.save((err, userInfo) => {
+            if (err) return res.json({ success: false, err });
+            Counter.updateOne(
+                { name: "게시물갯수" },
+                { $inc: { totalPost: 1 } }
+            ).then(console.log("증가 완료"));
+
+            return res.status(200).json({
+                success: true,
+            });
         });
     });
 });
-app.get("/api/getpost", (req, res) => {
-    const datas = List.find({}).then((data) => {
+app.get("/api/getposts", (req, res) => {
+    List.find({}).then((data) => {
+        res.json(data);
+    });
+});
+
+app.get("/api/posts/:id", (req, res) => {
+    List.findOne({ post_id: parseInt(req.params.id) }).then((data) => {
         res.json(data);
     });
 });
