@@ -7,6 +7,7 @@ import BoardPage from "./components/views/BoardPage/BoardPage";
 import AddPage from "./components/views/BoardPage/AddPage";
 import PrivateRoute from "./hoc/PrivateRoute";
 import PostPage from "./components/views/BoardPage/PostPage";
+import ProfilePage from "./components/views/ProfilePage/ProfilePage";
 
 export default function App(props) {
     return (
@@ -35,6 +36,14 @@ export default function App(props) {
                     element={
                         <PrivateRoute>
                             <BoardPage option={true} />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/profile"
+                    element={
+                        <PrivateRoute>
+                            <ProfilePage option={true} />
                         </PrivateRoute>
                     }
                 />

@@ -39,12 +39,12 @@ function LoginPage(props) {
                 autoComplete="off"
             >
                 <Form.Item
-                    label="email"
+                    label="이메일"
                     name="email"
                     rules={[
                         {
                             required: true,
-                            message: "Please input your email!",
+                            message: "이메일을 입력해주세요!",
                         },
                     ]}
                 >
@@ -52,19 +52,19 @@ function LoginPage(props) {
                 </Form.Item>
 
                 <Form.Item
-                    label="Password"
+                    label="비밀번호"
                     name="password"
                     rules={[
                         {
                             required: true,
-                            message: "Please input your password!",
+                            message: "비밀번호를 입력해주세요!",
                         },
                     ]}
                 >
                     <Input.Password />
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                     name="remember"
                     valuePropName="checked"
                     wrapperCol={{
@@ -73,7 +73,7 @@ function LoginPage(props) {
                     }}
                 >
                     <Checkbox>Remember me</Checkbox>
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item
                     wrapperCol={{
@@ -82,7 +82,7 @@ function LoginPage(props) {
                     }}
                 >
                     <Button type="primary" htmlType="submit">
-                        Submit
+                        로그인
                     </Button>
                 </Form.Item>
             </Form>
@@ -90,7 +90,7 @@ function LoginPage(props) {
     );
 }
 
-export default Auth(LoginPage, false);
+export default LoginPage;
 
 const MainDiv = styled.div`
     width: 100%;
@@ -98,8 +98,4 @@ const MainDiv = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-`;
-const FormDiv = styled.form`
-    display: flex;
-    flex-direction: column;
 `;

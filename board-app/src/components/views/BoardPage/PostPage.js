@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { DefaultDiv } from "../../../styles/styles";
+import { DefaultDiv, BodyColor } from "../../../styles/styles";
 import styled from "styled-components";
 import { Form, Input, Button } from "antd";
 function PostPage() {
@@ -19,13 +19,11 @@ function PostPage() {
         <PostDiv>
             <TitleDiv>
                 <h1>{post.title}</h1>
+                <p style={{ float: "right" }}>{post.writeDate}</p>
                 <p>{post.writer}</p>
-                <p>{post.writeDate}</p>
-                <hr />
             </TitleDiv>
             <ContentDiv>
                 <p>{post.content}</p>
-                <hr />
             </ContentDiv>
             <ChatDiv>
                 <p>댓글</p>
@@ -51,8 +49,14 @@ const PostDiv = styled(DefaultDiv)`
     margin-top: 50px;
     background-color: white;
 `;
-const TitleDiv = styled.div``;
-const ContentDiv = styled.div``;
+const TitleDiv = styled.div`
+    height: 100px;
+    border-bottom: 3px solid ${BodyColor};
+`;
+const ContentDiv = styled.div`
+    height: 500px;
+    border-bottom: 3px solid ${BodyColor};
+`;
 const ChatDiv = styled.div``;
 
 export default PostPage;

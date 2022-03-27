@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Input, Select, Button, Modal } from "antd";
 
 const { Option } = Select;
-function RegisterPage() {
+function ProfilePage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form] = Form.useForm();
@@ -169,7 +169,7 @@ function RegisterPage() {
     );
 }
 
-export default RegisterPage;
+export default ProfilePage;
 
 const MainDiv = styled(DefaultDiv)`
     padding: 30px;

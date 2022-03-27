@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { UserOutlined } from "@ant-design/icons";
 import { DefaultLink } from "../../../styles/styles";
+import { Button } from "antd";
 
 function BoardPage() {
     const user = useSelector((state) => state.user.userData);
@@ -27,7 +28,7 @@ function BoardPage() {
 
     return (
         <DefaultDiv>
-            <button onClick={onClickHandler}>로그아웃</button>
+            <Button onClick={onClickHandler}>로그아웃</Button>
             <MainDiv>
                 <SideDiv>
                     <TitleDiv>
@@ -38,9 +39,7 @@ function BoardPage() {
                     <TitleDiv>
                         <h2>자유게시판</h2>
                     </TitleDiv>
-                    <DefaultLink to="/add">
-                        <button>글쓰기</button>
-                    </DefaultLink>
+
                     {posts.map((post, id) => {
                         return <Post post={post} id={id} key={id} />;
                     })}
@@ -54,6 +53,12 @@ function BoardPage() {
                     <p>{user.name}</p>
                     <br />
                     <p>{user.intro}</p>
+                    <DefaultLink to="/add" style={{ display: "block" }}>
+                        <Button type="primary">글쓰기</Button>
+                    </DefaultLink>
+                    <DefaultLink to="/profile">
+                        <Button>프로필 수정</Button>
+                    </DefaultLink>
                 </ProfileDiv>
             </MainDiv>
         </DefaultDiv>
@@ -69,8 +74,6 @@ function Post(props) {
             <div>
                 <p>작성자: {props.post.writer}</p>
                 <p>제목: {props.post.title}</p>
-                <p>내용: {props.post.content}</p>
-                <p>날짜: {props.post.writeDate}</p>
                 <hr />
             </div>
         </DefaultLink>
