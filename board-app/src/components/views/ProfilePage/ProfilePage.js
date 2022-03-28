@@ -1,25 +1,16 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import { DefaultDiv } from "../../../styles/styles";
-import { useDispatch } from "react-redux";
-import { RegisterUser } from "../../../_actions/user_action";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Select, Button, Modal } from "antd";
+import axios from "axios";
 
 const { Option } = Select;
 function ProfilePage() {
-    const dispatch = useDispatch();
+    const userData = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
     const [form] = Form.useForm();
-
-    const validateEmail = useCallback((_, value) => {
-        const regExp =
-            /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-        if (!value.match(regExp)) {
-            return Promise.reject(new Error("올바른 이메일 형식이 아닙니다."));
-        }
-        return Promise.resolve();
-    }, []);
 
     const validatePassword = useCallback((_, value) => {
         const regExp =
@@ -35,17 +26,16 @@ function ProfilePage() {
     }, []);
 
     const onFinishHandler = (values) => {
-        console.log(values);
         let user = {
-            name: values.name,
-            email: values.email,
+            email: userData.email,
             password: values.password,
+            name: values.name,
             gender: values.gender,
             intro: values.intro,
         };
-        dispatch(RegisterUser(user)).then((res) => {
+        axios.post("/api/users/profile", user).then((res) => {
             if (res.payload.success) {
-                navigate("/login");
+                navigate("/board");
             } else {
                 alert("Error");
             }
@@ -59,27 +49,13 @@ function ProfilePage() {
     };
     return (
         <MainDiv>
-            <h1>회원가입</h1>
+            <h1>프로필 수정 페이지</h1>
             <Form
                 form={form}
-                name="register"
+                name="profile"
                 onFinish={onFinishHandler}
                 scrollToFirstError
             >
-                <Form.Item
-                    name="email"
-                    label="이메일"
-                    rules={[
-                        {
-                            required: true,
-                            message: "이메일은 필수 항목입니다.",
-                        },
-                        { validator: validateEmail },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
-
                 <Form.Item
                     name="password"
                     label="비밀번호"
@@ -161,7 +137,7 @@ function ProfilePage() {
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
-                        회원가입
+                        프로필 수정
                     </Button>
                 </Form.Item>
             </Form>

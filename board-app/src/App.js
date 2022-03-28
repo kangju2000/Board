@@ -8,8 +8,9 @@ import AddPage from "./components/views/BoardPage/AddPage";
 import PrivateRoute from "./hoc/PrivateRoute";
 import PostPage from "./components/views/BoardPage/PostPage";
 import ProfilePage from "./components/views/ProfilePage/ProfilePage";
+import EditPage from "./components/views/BoardPage/EditPage";
 
-export default function App(props) {
+export default function App() {
     return (
         <>
             <NavBar />
@@ -52,6 +53,14 @@ export default function App(props) {
                     element={
                         <PrivateRoute>
                             <AddPage option={true} />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/edit/:id"
+                    element={
+                        <PrivateRoute>
+                            <EditPage option={true} />
                         </PrivateRoute>
                     }
                 />

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { DefaultDiv, BodyColor } from "../../../styles/styles";
+import { DefaultDiv, BodyColor, DefaultLink } from "../../../styles/styles";
 import styled from "styled-components";
 import { Form, Input, Button } from "antd";
 function PostPage() {
@@ -21,6 +21,10 @@ function PostPage() {
                 <h1>{post.title}</h1>
                 <p style={{ float: "right" }}>{post.writeDate}</p>
                 <p>{post.writer}</p>
+                <DefaultLink to={`/edit/${id}`}>
+                    <Button>수정</Button>
+                </DefaultLink>
+                <Button>삭제</Button>
             </TitleDiv>
             <ContentDiv>
                 <p>{post.content}</p>
@@ -50,7 +54,6 @@ const PostDiv = styled(DefaultDiv)`
     background-color: white;
 `;
 const TitleDiv = styled.div`
-    height: 100px;
     border-bottom: 3px solid ${BodyColor};
 `;
 const ContentDiv = styled.div`

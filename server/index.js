@@ -27,21 +27,21 @@ mongoose
     .then(() => console.log("MongoDB Connected..."))
     .catch((err) => console.log(err));
 
-app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-});
-app.get("/board", function (req, res) {
-    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-});
-app.get("/login", function (req, res) {
-    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-});
-app.get("/register", function (req, res) {
-    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-});
-app.get("/add", function (req, res) {
-    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-});
+// app.get("/", function (req, res) {
+//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+// });
+// app.get("/board", function (req, res) {
+//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+// });
+// app.get("/login", function (req, res) {
+//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+// });
+// app.get("/register", function (req, res) {
+//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+// });
+// app.get("/add", function (req, res) {
+//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+// });
 
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Listening on port ${process.env.PORT || 5000}`);
@@ -57,8 +57,15 @@ app.post("/api/users/register", (req, res) => {
     });
 });
 
+app.post("/api/users/profile", (req, res) => {
+    const data = req.body;
+    User.updateOne({ email: data.email }, { $set: data }).then((doc) => {
+        console.log("업데이트 완료");
+    });
+});
+
 app.post("/api/users/add", (req, res) => {
-    let data = req.body;
+    const data = req.body;
     let totalPost;
     Counter.findOne({ name: "게시물갯수" }).then((doc) => {
         totalPost = doc.totalPost;
@@ -78,6 +85,11 @@ app.post("/api/users/add", (req, res) => {
         });
     });
 });
+
+app.post("/api/users/editpost", (req, res) => {
+    List.updateOne({});
+});
+
 app.get("/api/getposts", (req, res) => {
     List.find({}).then((data) => {
         res.json(data);

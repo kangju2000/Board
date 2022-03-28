@@ -46,6 +46,7 @@ const userSchema = mongoose.Schema(
 userSchema.pre("save", function (next) {
     // 저장하기전에 실행할 코드
     var user = this;
+    console.log(user);
     if (user.isModified("password")) {
         // 비밀번호가 변경될때만
         bcrypt.genSalt(saltRounds, function (err, salt) {
@@ -58,6 +59,21 @@ userSchema.pre("save", function (next) {
         });
     } else {
         // 그 외에는 그냥 내보낸다
+        next();
+    }
+});
+userSchema.pre("updateOne", function (next) {
+    let update = this.getUpdate().$set;
+    if (update.password) {
+        bcrypt.genSalt(saltRounds, function (err, salt) {
+            if (err) return next(err);
+            bcrypt.hash(update.password, salt, function (err, hash) {
+                if (err) return next(err);
+                update.password = hash;
+                next();
+            });
+        });
+    } else {
         next();
     }
 });
