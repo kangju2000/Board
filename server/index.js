@@ -8,12 +8,12 @@ const { Counter } = require("./models/Counter");
 const { auth } = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
 
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "../board-app/build")));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
 
 const config = require("../config/key");
 
@@ -64,6 +64,7 @@ app.post("/api/users/profile", (req, res) => {
     const data = req.body;
     User.updateOne({ email: data.email }, { $set: data }).then((doc) => {
         console.log("업데이트 완료");
+        return res;
     });
 });
 
@@ -95,14 +96,16 @@ app.post("/api/users/editpost", (req, res) => {
     List.updateOne({ post_id: req.body.post_id }, { $set: req.body }).then(
         (doc) => {
             console.log("게시글 수정 완료");
+            return res.status(200).json({ success: true });
         }
     );
 });
 
 //글 삭제
 app.post("/api/users/deletepost", (req, res) => {
-    List.deleteOne({ post_id: req.body.id }).then((count) => {
+    List.deleteOne({ post_id: req.body.id }).then((doc) => {
         console.log("게시글 삭제 완료");
+        return res.status(200).json({ success: true });
     });
 });
 

@@ -19,7 +19,7 @@ export default function EditPage() {
             title: values.title,
             content: values.content,
         };
-        await axios.post("/api/users/editpost", newPost).then((res) => {
+        axios.post("/api/users/editpost", newPost).then((res) => {
             navigate("/board");
         });
     };
