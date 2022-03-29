@@ -41,7 +41,9 @@ function BoardPage() {
                     </TitleDiv>
 
                     {posts.map((post, id) => {
-                        return <Post post={post} id={id} key={id} />;
+                        return (
+                            <Post post={post} post_id={post.post_id} key={id} />
+                        );
                     })}
                 </MainContentsDiv>
                 <ProfileDiv>
@@ -68,9 +70,8 @@ function BoardPage() {
 export default BoardPage;
 
 function Post(props) {
-    let url = `/posts/${props.id + 1}`;
     return (
-        <DefaultLink to={url}>
+        <DefaultLink to={`/posts/${props.post_id}`}>
             <div>
                 <p>작성자: {props.post.writer}</p>
                 <p>제목: {props.post.title}</p>

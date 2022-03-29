@@ -27,9 +27,10 @@ mongoose
     .then(() => console.log("MongoDB Connected..."))
     .catch((err) => console.log(err));
 
-// app.get("/", function (req, res) {
-//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-// });
+app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+});
+
 // app.get("/board", function (req, res) {
 //     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
 // });
@@ -47,6 +48,7 @@ app.listen(process.env.PORT || 5000, () => {
     console.log(`Listening on port ${process.env.PORT || 5000}`);
 });
 
+// 회원가입
 app.post("/api/users/register", (req, res) => {
     const user = new User(req.body);
     user.save((err, userInfo) => {
@@ -57,6 +59,7 @@ app.post("/api/users/register", (req, res) => {
     });
 });
 
+// 프로필 수정
 app.post("/api/users/profile", (req, res) => {
     const data = req.body;
     User.updateOne({ email: data.email }, { $set: data }).then((doc) => {
@@ -64,6 +67,7 @@ app.post("/api/users/profile", (req, res) => {
     });
 });
 
+// 글 추가
 app.post("/api/users/add", (req, res) => {
     const data = req.body;
     let totalPost;
@@ -86,22 +90,37 @@ app.post("/api/users/add", (req, res) => {
     });
 });
 
+// DB에서 글 수정
 app.post("/api/users/editpost", (req, res) => {
-    List.updateOne({});
+    List.updateOne({ post_id: req.body.post_id }, { $set: req.body }).then(
+        (doc) => {
+            console.log("게시글 수정 완료");
+        }
+    );
 });
 
+//글 삭제
+app.post("/api/users/deletepost", (req, res) => {
+    List.deleteOne({ post_id: req.body.id }).then((count) => {
+        console.log("게시글 삭제 완료");
+    });
+});
+
+// 글 가져오기
 app.get("/api/getposts", (req, res) => {
     List.find({}).then((data) => {
         res.json(data);
     });
 });
 
+// 게시글 보여주기
 app.get("/api/posts/:id", (req, res) => {
     List.findOne({ post_id: parseInt(req.params.id) }).then((data) => {
         res.json(data);
     });
 });
 
+// 로그인
 app.post("/api/users/login", (req, res) => {
     User.findOne({ email: req.body.email }, (err, user) => {
         if (!user) {
@@ -131,6 +150,23 @@ app.post("/api/users/login", (req, res) => {
     });
 });
 
+// 로그아웃
+app.get("/api/users/logout", auth, (req, res) => {
+    User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+            token: "",
+        },
+        (err, user) => {
+            if (err) return res.json({ success: false, err });
+            return res.status(200).send({
+                success: true,
+            });
+        }
+    );
+});
+
+// 회원 기능
 app.get("/api/users/auth", auth, (req, res) => {
     // 여기까지 미들웨어(auth.js)를 통과해 왔다는 얘기는 Authentication이 True라는 말
     // 클라이언트에게 유저 정보 전달
@@ -145,19 +181,4 @@ app.get("/api/users/auth", auth, (req, res) => {
         role: req.user.role,
         image: req.user.image,
     });
-});
-
-app.get("/api/users/logout", auth, (req, res) => {
-    User.findOneAndUpdate(
-        { _id: req.user._id },
-        {
-            token: "",
-        },
-        (err, user) => {
-            if (err) return res.json({ success: false, err });
-            return res.status(200).send({
-                success: true,
-            });
-        }
-    );
 });

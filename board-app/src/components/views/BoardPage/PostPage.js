@@ -1,12 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DefaultDiv, BodyColor, DefaultLink } from "../../../styles/styles";
 import styled from "styled-components";
 import { Form, Input, Button } from "antd";
 function PostPage() {
     const [post, setPost] = useState([]);
+    const navigate = useNavigate();
     let { id } = useParams();
+
+    const onClickHandler = async () => {
+        await axios.post("/api/users/deletepost", { id }).then((res) => {
+            navigate("/board");
+        });
+    };
+
     const getPost = async () => {
         await axios.get(`/api/posts/${id}`).then((res) => {
             setPost(res.data);
@@ -24,10 +32,18 @@ function PostPage() {
                 <DefaultLink to={`/edit/${id}`}>
                     <Button>수정</Button>
                 </DefaultLink>
-                <Button>삭제</Button>
+                <Button onClick={onClickHandler}>삭제</Button>
             </TitleDiv>
             <ContentDiv>
-                <p>{post.content}</p>
+                {post.content &&
+                    post.content.split("\n").map((line) => {
+                        return (
+                            <>
+                                {line}
+                                <br />
+                            </>
+                        );
+                    })}
             </ContentDiv>
             <ChatDiv>
                 <p>댓글</p>

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { DefaultDiv } from "../../../styles/styles";
 import { Form, Input, Button } from "antd";
@@ -10,9 +10,11 @@ export default function EditPage() {
     const [form] = Form.useForm();
     const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
+    let { id } = useParams();
 
     const onFinishHandler = async (values) => {
         let newPost = {
+            post_id: id,
             writer: user.name,
             title: values.title,
             content: values.content,
