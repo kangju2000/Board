@@ -12,23 +12,23 @@ function BoardPage() {
     const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
+
     const onClickHandler = async () => {
         await axios.get("/api/users/logout").then((res) => {
             navigate("/");
         });
     };
-    const aa = async () => {
+    const getPosts = async () => {
         await axios.get("/api/getposts").then((res) => {
             setPosts(res.data);
         });
     };
     useEffect(() => {
-        aa();
+        getPosts();
     }, []);
 
     return (
         <DefaultDiv>
-            <Button onClick={onClickHandler}>로그아웃</Button>
             <MainDiv>
                 <SideDiv>
                     <TitleDiv>
@@ -61,6 +61,9 @@ function BoardPage() {
                     <DefaultLink to="/profile">
                         <Button>프로필 수정</Button>
                     </DefaultLink>
+                    <Button onClick={onClickHandler} type="primary" danger>
+                        로그아웃
+                    </Button>
                 </ProfileDiv>
             </MainDiv>
         </DefaultDiv>

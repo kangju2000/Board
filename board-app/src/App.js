@@ -6,6 +6,7 @@ import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 import BoardPage from "./components/views/BoardPage/BoardPage";
 import AddPage from "./components/views/BoardPage/AddPage";
 import PrivateRoute from "./hoc/PrivateRoute";
+import UserOnly from "./hoc/UserOnly";
 import PostPage from "./components/views/BoardPage/PostPage";
 import ProfilePage from "./components/views/ProfilePage/ProfilePage";
 import EditPage from "./components/views/BoardPage/EditPage";
@@ -56,14 +57,7 @@ export default function App() {
                         </PrivateRoute>
                     }
                 />
-                <Route
-                    path="/edit/:id"
-                    element={
-                        <PrivateRoute>
-                            <EditPage option={true} />
-                        </PrivateRoute>
-                    }
-                />
+                <Route path="/edit/:id" element={<EditPage option={true} />} />
                 <Route
                     path="/posts/:id"
                     element={

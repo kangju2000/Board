@@ -29,7 +29,14 @@ function PostPage() {
                 <h1>{post.title}</h1>
                 <p style={{ float: "right" }}>{post.writeDate}</p>
                 <p>{post.writer}</p>
-                <DefaultLink to={`/edit/${id}`}>
+                <DefaultLink
+                    to={`/edit/${id}`}
+                    state={{
+                        email: post.email,
+                        title: post.title,
+                        content: post.content,
+                    }}
+                >
                     <Button>수정</Button>
                 </DefaultLink>
                 <Button onClick={onClickHandler}>삭제</Button>

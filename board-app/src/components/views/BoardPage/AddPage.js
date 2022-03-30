@@ -13,7 +13,8 @@ export default function AddPage() {
 
     const onFinishHandler = async (values) => {
         let newPost = {
-            writer: user.name, // 유저가 이름 바꾸면 게시글의 name을 다 수정해야해서, id로 받는걸 추천
+            writer: user.name,
+            email: user.email,
             title: values.title,
             content: values.content,
         };

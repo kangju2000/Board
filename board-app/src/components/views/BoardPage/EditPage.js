@@ -1,21 +1,19 @@
 import React from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { DefaultDiv } from "../../../styles/styles";
 import { Form, Input, Button } from "antd";
 
-export default function EditPage() {
+export default function EditPage(props) {
     const [form] = Form.useForm();
-    const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
+    const location = useLocation();
     let { id } = useParams();
-
+    console.log(location.state.title)
     const onFinishHandler = async (values) => {
         let newPost = {
             post_id: id,
-            writer: user.name,
             title: values.title,
             content: values.content,
         };
