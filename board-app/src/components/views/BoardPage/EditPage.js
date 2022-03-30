@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -10,7 +10,11 @@ export default function EditPage(props) {
     const navigate = useNavigate();
     const location = useLocation();
     let { id } = useParams();
-    console.log(location.state.title)
+
+    const [title, setTitle] = useState("");
+
+    console.log(location.state.post); //수정이니까 input안에 기존에 썼던 제목, 내용을 프론트에 보여주고 싶은데 어떻게 할까?
+
     const onFinishHandler = async (values) => {
         let newPost = {
             post_id: id,
@@ -21,6 +25,9 @@ export default function EditPage(props) {
             navigate("/board");
         });
     };
+    useEffect(() => {
+        setTitle("ddd");
+    }, []);
     return (
         <AddDiv>
             <Form form={form} name="editpost" onFinish={onFinishHandler}>

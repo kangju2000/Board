@@ -3,7 +3,8 @@ import axios from "axios";
 import styled from "styled-components";
 import { BodyColor, DefaultDiv } from "../../../styles/styles";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { post } from "../../../_actions/post_action";
+import { useDispatch, useSelector } from "react-redux";
 import { UserOutlined } from "@ant-design/icons";
 import { DefaultLink } from "../../../styles/styles";
 import { Button } from "antd";
@@ -11,6 +12,7 @@ import { Button } from "antd";
 function BoardPage() {
     const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [posts, setPosts] = useState([]);
 
     const onClickHandler = async () => {
@@ -19,8 +21,8 @@ function BoardPage() {
         });
     };
     const getPosts = async () => {
-        await axios.get("/api/getposts").then((res) => {
-            setPosts(res.data);
+        await dispatch(post()).then((res) => {
+            setPosts(res.payload);
         });
     };
     useEffect(() => {
@@ -74,7 +76,12 @@ export default BoardPage;
 
 function Post(props) {
     return (
-        <DefaultLink to={`/posts/${props.post_id}`}>
+        <DefaultLink
+            to={`/posts/${props.post_id}`}
+            state={{
+                post: props.post,
+            }}
+        >
             <div>
                 <p>작성자: {props.post.writer}</p>
                 <p>제목: {props.post.title}</p>

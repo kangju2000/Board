@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
-import Auth from "../../../hoc/auth";
 import { Form, Input, Button, Checkbox } from "antd";
 
 function LoginPage(props) {

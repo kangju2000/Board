@@ -1,14 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DefaultDiv, BodyColor, DefaultLink } from "../../../styles/styles";
 import styled from "styled-components";
 import { Form, Input, Button } from "antd";
+import { useSelector } from "react-redux";
 function PostPage() {
-    const [post, setPost] = useState([]);
     const navigate = useNavigate();
     let { id } = useParams();
-
+    const location = useLocation();
+    const post = location.state.post;
     const onClickHandler = async () => {
         await axios.post("/api/users/deletepost", { id }).then((res) => {
             navigate("/board");
@@ -16,9 +17,7 @@ function PostPage() {
     };
 
     const getPost = async () => {
-        await axios.get(`/api/posts/${id}`).then((res) => {
-            setPost(res.data);
-        });
+        console.log();
     };
     useEffect(() => {
         getPost();
@@ -32,9 +31,7 @@ function PostPage() {
                 <DefaultLink
                     to={`/edit/${id}`}
                     state={{
-                        email: post.email,
-                        title: post.title,
-                        content: post.content,
+                        post: post,
                     }}
                 >
                     <Button>수정</Button>
@@ -43,10 +40,11 @@ function PostPage() {
             </TitleDiv>
             <ContentDiv>
                 {post.content &&
-                    post.content.split("\n").map((line) => {
+                    post.content.split("\n").map((line, id) => {
                         return (
                             <>
                                 {line}
+
                                 <br />
                             </>
                         );

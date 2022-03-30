@@ -34,11 +34,7 @@ function ProfilePage() {
             intro: values.intro,
         };
         axios.post("/api/users/profile", user).then((res) => {
-            if (res.payload.success) {
-                navigate("/board");
-            } else {
-                alert("Error");
-            }
+            navigate("/board");
         });
     };
 

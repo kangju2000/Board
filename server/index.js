@@ -122,13 +122,14 @@ app.get("/api/users/auth", auth, (req, res) => {
     });
 });
 
-
 // 프로필 수정
 app.post("/api/users/profile", (req, res) => {
     const data = req.body;
     User.updateOne({ email: data.email }, { $set: data }).then((doc) => {
         console.log("업데이트 완료");
-        return res;
+        return res.status(200).json({
+            success: true,
+        });
     });
 });
 
@@ -186,4 +187,3 @@ app.get("/api/posts/:id", (req, res) => {
         res.json(data);
     });
 });
-
