@@ -11,9 +11,11 @@ function PostPage() {
     const location = useLocation();
     const post = location.state.post;
     const onClickHandler = async () => {
-        await axios.post("/api/users/deletepost", { id }).then((res) => {
-            navigate("/board");
-        });
+        await axios
+            .post("/api/users/deletepost", { post_id: post.post_id })
+            .then((res) => {
+                navigate("/board");
+            });
     };
 
     const getPost = async () => {

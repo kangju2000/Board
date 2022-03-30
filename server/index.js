@@ -168,7 +168,8 @@ app.post("/api/users/editpost", (req, res) => {
 
 //글 삭제
 app.post("/api/users/deletepost", (req, res) => {
-    List.deleteOne({ post_id: req.body.id }).then((doc) => {
+    console.log(req.body.post_id)
+    List.deleteOne({ post_id: req.body.post_id }).then((doc) => {
         console.log("게시글 삭제 완료");
         return res.status(200).json({ success: true });
     });
