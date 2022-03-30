@@ -12,18 +12,19 @@ function BoardPage() {
     const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
+
     const onClickHandler = async () => {
         await axios.get("/api/users/logout").then((res) => {
             navigate("/");
         });
     };
-    const aa = async () => {
+    const getPosts = async () => {
         await axios.get("/api/getposts").then((res) => {
             setPosts(res.data);
         });
     };
     useEffect(() => {
-        aa();
+        getPosts();
     }, []);
 
     return (
@@ -54,15 +55,15 @@ function BoardPage() {
                     <p>{user.name}</p>
                     <br />
                     <p>{user.intro}</p>
-                    <D>
-                        <DefaultLink to="/add">
-                            <Button type="primary">글쓰기</Button>
-                        </DefaultLink>
-                        <DefaultLink to="/profile">
-                            <Button>프로필 수정</Button>
-                        </DefaultLink>
-                        <Button onClick={onClickHandler}>로그아웃</Button>
-                    </D>
+                    <DefaultLink to="/add" style={{ display: "block" }}>
+                        <Button type="primary">글쓰기</Button>
+                    </DefaultLink>
+                    <DefaultLink to="/profile">
+                        <Button>프로필 수정</Button>
+                    </DefaultLink>
+                    <Button onClick={onClickHandler} type="primary" danger>
+                        로그아웃
+                    </Button>
                 </ProfileDiv>
             </MainDiv>
         </DefaultDiv>
@@ -85,7 +86,6 @@ function Post(props) {
 const D = styled.div`
     display: flex;
     flex-direction: column;
-    
 `;
 
 const MainDiv = styled(DefaultDiv)`

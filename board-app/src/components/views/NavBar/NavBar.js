@@ -4,29 +4,10 @@ import styled from "styled-components";
 import { DefaultLink } from "../../../styles/styles";
 
 export default function NavBar() {
-    // const [toggle, setToggle] = useState(false); //사이드 링크 클릭시 사이드바 닫히도록 설정
 
     return (
         <NavigationBar expand={false}>
             <NavContainer>
-                {/* <NavSideBtn aria-controls="offcanvasNavbar" />
-                <SideBar
-                    id="offcanvasNavbar"
-                    aria-labelledby="offcanvasNavbarLabel"
-                    placement="start"
-                >
-                    <Offcanvas.Header closeButton style={navColor}>
-                        <Offcanvas.Title id="offcanvasNavbarLabel">
-                            BOARD
-                        </Offcanvas.Title>
-                    </Offcanvas.Header>
-                    <Offcanvas.Body>
-                        <Nav className="justify-content-end flex-grow-1 pe-3">
-                            <DefaultLink to="/login">로그인</DefaultLink>
-                            <DefaultLink to="/register">회원가입</DefaultLink>
-                        </Nav>
-                    </Offcanvas.Body>
-                </SideBar> */}
                 <NavTitle>
                     <DefaultLink to="/">📋</DefaultLink>
                 </NavTitle>
@@ -51,6 +32,7 @@ const NavigationBar = styled(Navbar)`
     position: sticky;
     top: 0;
     background-color: white;
+    z-index: 5;
 `;
 const NavContainer = styled.div`
     width: 100%;

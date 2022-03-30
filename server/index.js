@@ -59,6 +59,70 @@ app.post("/api/users/register", (req, res) => {
     });
 });
 
+// 로그인
+app.post("/api/users/login", (req, res) => {
+    User.findOne({ email: req.body.email }, (err, user) => {
+        if (!user) {
+            return res.json({
+                loginSuccess: false,
+                message: "이메일에 해당하는 유저가 없습니다.",
+            });
+        }
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if (!isMatch)
+                return res.json({
+                    loginSuccess: false,
+                    message: "비밀번호가 틀렸습니다.",
+                });
+
+            // 비밀번호까지 맞다면 토큰을 생성
+            user.generateToken((err, user) => {
+                if (err) return res.status(400).send(err);
+
+                // 정상적일 경우 토큰을 쿠키나 로컬스토리지 등에 저장
+                // 쿠키에 저장
+                res.cookie("x_auth", user.token)
+                    .status(200)
+                    .json({ loginSuccess: true, userId: user._id });
+            });
+        });
+    });
+});
+
+// 로그아웃
+app.get("/api/users/logout", auth, (req, res) => {
+    User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+            token: "",
+        },
+        (err, user) => {
+            if (err) return res.json({ success: false, err });
+            return res.status(200).send({
+                success: true,
+            });
+        }
+    );
+});
+
+// 회원 기능
+app.get("/api/users/auth", auth, (req, res) => {
+    // 여기까지 미들웨어(auth.js)를 통과해 왔다는 얘기는 Authentication이 True라는 말
+    // 클라이언트에게 유저 정보 전달
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true, // role이 0이면 일반 유저, 그외는 관리자
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        intro: req.user.intro,
+        gender: req.user.gender,
+        role: req.user.role,
+        image: req.user.image,
+    });
+});
+
+
 // 프로필 수정
 app.post("/api/users/profile", (req, res) => {
     const data = req.body;
@@ -123,65 +187,3 @@ app.get("/api/posts/:id", (req, res) => {
     });
 });
 
-// 로그인
-app.post("/api/users/login", (req, res) => {
-    User.findOne({ email: req.body.email }, (err, user) => {
-        if (!user) {
-            return res.json({
-                loginSuccess: false,
-                message: "이메일에 해당하는 유저가 없습니다.",
-            });
-        }
-        user.comparePassword(req.body.password, (err, isMatch) => {
-            if (!isMatch)
-                return res.json({
-                    loginSuccess: false,
-                    message: "비밀번호가 틀렸습니다.",
-                });
-
-            // 비밀번호까지 맞다면 토큰을 생성
-            user.generateToken((err, user) => {
-                if (err) return res.status(400).send(err);
-
-                // 정상적일 경우 토큰을 쿠키나 로컬스토리지 등에 저장
-                // 쿠키에 저장
-                res.cookie("x_auth", user.token)
-                    .status(200)
-                    .json({ loginSuccess: true, userId: user._id });
-            });
-        });
-    });
-});
-
-// 로그아웃
-app.get("/api/users/logout", auth, (req, res) => {
-    User.findOneAndUpdate(
-        { _id: req.user._id },
-        {
-            token: "",
-        },
-        (err, user) => {
-            if (err) return res.json({ success: false, err });
-            return res.status(200).send({
-                success: true,
-            });
-        }
-    );
-});
-
-// 회원 기능
-app.get("/api/users/auth", auth, (req, res) => {
-    // 여기까지 미들웨어(auth.js)를 통과해 왔다는 얘기는 Authentication이 True라는 말
-    // 클라이언트에게 유저 정보 전달
-    res.status(200).json({
-        _id: req.user._id,
-        isAdmin: req.user.role === 0 ? false : true, // role이 0이면 일반 유저, 그외는 관리자
-        isAuth: true,
-        email: req.user.email,
-        name: req.user.name,
-        intro: req.user.intro,
-        gender: req.user.gender,
-        role: req.user.role,
-        image: req.user.image,
-    });
-});

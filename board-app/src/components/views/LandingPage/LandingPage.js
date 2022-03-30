@@ -17,7 +17,7 @@ function LandingPage() {
                 <h1>게시판</h1>
             </Header>
             <Content>
-                <p>연습삼아 만든 React+express 게시판입니다.</p>
+                <p>React+express 게시판입니다.</p>
                 <Link to="/board">
                     <Button type="primary">게시판 이동</Button>
                 </Link>

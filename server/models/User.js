@@ -3,45 +3,40 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 
-const userSchema = mongoose.Schema(
-    {
-        name: {
-            type: String,
-            maxlength: 8,
-        },
-        email: {
-            type: String,
-            trim: true, // 스페이스와 같은 공백을 없애주는 역할
-            unique: 1, // 똑같은 이메일을 쓰지 못하도록하는 역할
-        },
-        password: {
-            type: String,
-            minlength: 5,
-        },
-        gender: {
-            type: String,
-        },
-        intro: {
-            type: String,
-            maxlength: 100,
-            default: "",
-        },
-        role: {
-            type: Number, // 1이면 관리자, 0은 일반
-            default: 0,
-        },
-        image: String,
-        token: {
-            type: String,
-        },
-        tokenExp: {
-            type: Number,
-        },
+const userSchema = mongoose.Schema({
+    name: {
+        type: String,
+        maxlength: 8,
     },
-    {
-        collection: "users",
-    }
-);
+    email: {
+        type: String,
+        trim: true, // 스페이스와 같은 공백을 없애주는 역할
+        unique: 1, // 똑같은 이메일을 쓰지 못하도록하는 역할
+    },
+    password: {
+        type: String,
+        minlength: 5,
+    },
+    gender: {
+        type: String,
+    },
+    intro: {
+        type: String,
+        maxlength: 100,
+        default: "",
+    },
+    role: {
+        type: Number, // 1이면 관리자, 0은 일반
+        default: 0,
+    },
+    image: String,
+    token: {
+        type: String,
+    },
+    tokenExp: {
+        type: Number,
+    },
+});
 
 userSchema.pre("save", function (next) {
     // 저장하기전에 실행할 코드
@@ -113,5 +108,5 @@ userSchema.statics.findByToken = function (token, cb) {
     });
 };
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema, "users");
 module.exports = { User };
