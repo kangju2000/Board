@@ -28,7 +28,6 @@ function BoardPage() {
 
     return (
         <DefaultDiv>
-            <Button onClick={onClickHandler}>로그아웃</Button>
             <MainDiv>
                 <SideDiv>
                     <TitleDiv>
@@ -55,12 +54,15 @@ function BoardPage() {
                     <p>{user.name}</p>
                     <br />
                     <p>{user.intro}</p>
-                    <DefaultLink to="/add" style={{ display: "block" }}>
-                        <Button type="primary">글쓰기</Button>
-                    </DefaultLink>
-                    <DefaultLink to="/profile">
-                        <Button>프로필 수정</Button>
-                    </DefaultLink>
+                    <D>
+                        <DefaultLink to="/add">
+                            <Button type="primary">글쓰기</Button>
+                        </DefaultLink>
+                        <DefaultLink to="/profile">
+                            <Button>프로필 수정</Button>
+                        </DefaultLink>
+                        <Button onClick={onClickHandler}>로그아웃</Button>
+                    </D>
                 </ProfileDiv>
             </MainDiv>
         </DefaultDiv>
@@ -80,6 +82,11 @@ function Post(props) {
         </DefaultLink>
     );
 }
+const D = styled.div`
+    display: flex;
+    flex-direction: column;
+    
+`;
 
 const MainDiv = styled(DefaultDiv)`
     padding: 30px;
