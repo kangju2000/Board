@@ -180,10 +180,3 @@ app.get("/api/getposts", (req, res) => {
         res.json(data);
     });
 });
-
-// 게시글 보여주기
-app.get("/api/posts/:id", (req, res) => {
-    List.findOne({ post_id: parseInt(req.params.id) }).then((data) => {
-        res.json(data);
-    });
-});
