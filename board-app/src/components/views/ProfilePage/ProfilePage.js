@@ -7,7 +7,7 @@ import { Form, Input, Select, Button, Modal } from "antd";
 import axios from "axios";
 
 const { Option } = Select;
-function ProfilePage() {
+export default function ProfilePage() {
     const userData = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
     const [form] = Form.useForm();
@@ -140,8 +140,6 @@ function ProfilePage() {
         </MainDiv>
     );
 }
-
-export default ProfilePage;
 
 const MainDiv = styled(DefaultDiv)`
     padding: 30px;

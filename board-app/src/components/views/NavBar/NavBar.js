@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { DefaultLink } from "../../../styles/styles";
 
 export default function NavBar() {
-
     return (
         <NavigationBar expand={false}>
             <NavContainer>
@@ -14,9 +13,6 @@ export default function NavBar() {
                 <NavRight>
                     <DefaultLink to="/board">
                         <NavLoginBtn>게시판</NavLoginBtn>
-                    </DefaultLink>
-                    <DefaultLink to="/register">
-                        <NavLoginBtn>회원가입</NavLoginBtn>
                     </DefaultLink>
                     <DefaultLink to="/login">
                         <NavLoginBtn>로그인</NavLoginBtn>

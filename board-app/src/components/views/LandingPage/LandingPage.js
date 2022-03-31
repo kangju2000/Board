@@ -6,7 +6,7 @@ import { Button } from "antd";
 import { Link } from "react-router-dom";
 import { auth } from "../../../_actions/user_action";
 
-function LandingPage() {
+export default function LandingPage() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(auth()).then((res) => console.log(res));
@@ -41,5 +41,3 @@ const Content = styled.div`
         font-size: 30px;
     }
 `;
-
-export default LandingPage;

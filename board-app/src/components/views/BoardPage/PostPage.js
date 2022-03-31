@@ -1,15 +1,15 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { DefaultDiv, BodyColor, DefaultLink } from "../../../styles/styles";
 import styled from "styled-components";
 import { Form, Input, Button } from "antd";
-import { useSelector } from "react-redux";
+
 function PostPage() {
     const navigate = useNavigate();
-    let { id } = useParams();
     const location = useLocation();
     const post = location.state.post;
+
     const onClickHandler = async () => {
         await axios
             .post("/api/users/deletepost", { post_id: post.post_id })
@@ -17,13 +17,6 @@ function PostPage() {
                 navigate("/board");
             });
     };
-
-    const getPost = async () => {
-        console.log();
-    };
-    useEffect(() => {
-        getPost();
-    }, []);
     return (
         <PostDiv>
             <TitleDiv>
@@ -31,7 +24,7 @@ function PostPage() {
                 <p style={{ float: "right" }}>{post.writeDate}</p>
                 <p>{post.writer}</p>
                 <DefaultLink
-                    to={`/edit/${id}`}
+                    to={`/edit/${post.post_id}`}
                     state={{
                         post: post,
                     }}

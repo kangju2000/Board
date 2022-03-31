@@ -9,7 +9,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { DefaultLink } from "../../../styles/styles";
 import { Button } from "antd";
 
-function BoardPage() {
+export default function BoardPage() {
     const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -53,26 +53,26 @@ function BoardPage() {
                         <h2>프로필</h2>
                     </TitleDiv>
                     <UserOutlined style={{ fontSize: "100px" }} />
-                    <p>{user.email}</p>
-                    <p>{user.name}</p>
+                    <p style={{ fontSize: "20px" }}>{user.name}</p>
                     <br />
                     <p>{user.intro}</p>
-                    <DefaultLink to="/add" style={{ display: "block" }}>
-                        <Button type="primary">글쓰기</Button>
-                    </DefaultLink>
-                    <DefaultLink to="/profile">
-                        <Button>프로필 수정</Button>
-                    </DefaultLink>
-                    <Button onClick={onClickHandler} type="primary" danger>
-                        로그아웃
-                    </Button>
+
+                    <ButtonDiv>
+                        <DefaultLink to="/add" style={{ display: "block" }}>
+                            <Button type="primary">글쓰기</Button>
+                        </DefaultLink>
+                        <DefaultLink to="/profile">
+                            <Button>프로필 수정</Button>
+                        </DefaultLink>
+                        <Button onClick={onClickHandler} type="primary" danger>
+                            로그아웃
+                        </Button>
+                    </ButtonDiv>
                 </ProfileDiv>
             </MainDiv>
         </DefaultDiv>
     );
 }
-
-export default BoardPage;
 
 function Post(props) {
     return (
@@ -90,10 +90,6 @@ function Post(props) {
         </DefaultLink>
     );
 }
-const D = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
 
 const MainDiv = styled(DefaultDiv)`
     padding: 30px;
@@ -126,4 +122,15 @@ const ProfileDiv = styled.div`
 
 const TitleDiv = styled.div`
     border-bottom: 3px solid ${BodyColor};
+`;
+
+const ButtonDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    Button {
+        width: 80%;
+        max-width: 300px;
+        margin: 0 auto;
+        margin-top: 10px;
+    }
 `;

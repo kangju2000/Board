@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button } from "antd";
+import { DefaultDiv, DefaultLink } from "../../../styles/styles";
 
-function LoginPage(props) {
+export default function LoginPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const onSubmitHandler = (values) => {
@@ -17,84 +18,77 @@ function LoginPage(props) {
             if (res.payload.loginSuccess) {
                 navigate("/");
             } else {
-                alert("Error");
+                alert("로그인에 실패했습니다.");
             }
         });
     };
     return (
         <MainDiv>
-            <Form
-                name="basic"
-                labelCol={{
-                    span: 8,
-                }}
-                wrapperCol={{
-                    span: 16,
-                }}
-                initialValues={{
-                    remember: true,
-                }}
-                onFinish={onSubmitHandler}
-                autoComplete="off"
-            >
-                <Form.Item
-                    label="이메일"
-                    name="email"
-                    rules={[
-                        {
-                            required: true,
-                            message: "이메일을 입력해주세요!",
-                        },
-                    ]}
+            <TitleDiv>
+                <h1>로그인</h1>
+            </TitleDiv>
+            <LoginDiv>
+                <Form
+                    name="login"
+                    size="large"
+                    onFinish={onSubmitHandler}
+                    autoComplete="off"
                 >
-                    <Input />
-                </Form.Item>
+                    <Form.Item
+                        name="email"
+                        rules={[
+                            {
+                                required: true,
+                                message: "이메일을 입력해주세요!",
+                            },
+                        ]}
+                    >
+                        <Input placeholder="아이디" />
+                    </Form.Item>
 
-                <Form.Item
-                    label="비밀번호"
-                    name="password"
-                    rules={[
-                        {
-                            required: true,
-                            message: "비밀번호를 입력해주세요!",
-                        },
-                    ]}
-                >
-                    <Input.Password />
-                </Form.Item>
+                    <Form.Item
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: "비밀번호를 입력해주세요!",
+                            },
+                        ]}
+                    >
+                        <Input.Password placeholder="회원가입" />
+                    </Form.Item>
 
-                {/* <Form.Item
-                    name="remember"
-                    valuePropName="checked"
-                    wrapperCol={{
-                        offset: 8,
-                        span: 16,
-                    }}
-                >
-                    <Checkbox>Remember me</Checkbox>
-                </Form.Item> */}
-
-                <Form.Item
-                    wrapperCol={{
-                        offset: 8,
-                        span: 16,
-                    }}
-                >
-                    <Button type="primary" htmlType="submit">
-                        로그인
-                    </Button>
-                </Form.Item>
-            </Form>
+                    <Form.Item>
+                        <ButtonStyle type="primary" htmlType="submit">
+                            로그인
+                        </ButtonStyle>
+                        <DefaultLink to="/register">
+                            <ButtonStyle
+                                style={{ width: "100%", marginBottom: "10px" }}
+                            >
+                                회원가입
+                            </ButtonStyle>
+                        </DefaultLink>
+                    </Form.Item>
+                </Form>
+            </LoginDiv>
         </MainDiv>
     );
 }
 
-export default LoginPage;
+const MainDiv = styled(DefaultDiv)`
+    text-align: center;
+`;
 
-const MainDiv = styled.div`
-    width: 100%;
-    height: 100vh;
+const TitleDiv = styled.div`
+    margin: 40px;
+`;
+const LoginDiv = styled.div`
     display: flex;
     justify-content: center;
-    align-items: center;
+`;
+
+const ButtonStyle = styled(Button)`
+    width: 100%;
+    margin-bottom: 10px;
 `;
