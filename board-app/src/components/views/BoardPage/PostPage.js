@@ -67,14 +67,18 @@ const PostDiv = styled(DefaultDiv)`
     height: 700px;
     margin: 0 auto;
     margin-top: 50px;
-    background-color: white;
 `;
 const TitleDiv = styled.div`
-    border-bottom: 3px solid ${BodyColor};
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+    border-radius: 10px;
 `;
 const ContentDiv = styled.div`
-    height: 500px;
-    border-bottom: 3px solid ${BodyColor};
+    min-height: 500px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
 `;
 const ChatDiv = styled.div``;
 

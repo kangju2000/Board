@@ -19,7 +19,9 @@ export default function LandingPage() {
             <Content>
                 <p>React+express 게시판입니다.</p>
                 <Link to="/board">
-                    <Button type="primary">게시판 이동</Button>
+                    <Button type="primary" size="large">
+                        게시판 이동
+                    </Button>
                 </Link>
             </Content>
         </MainDiv>
@@ -31,6 +33,7 @@ const MainDiv = styled(DefaultDiv)`
 
 const Header = styled.div`
     margin-top: 50px;
+    font-family: Suit-Bold;
     h1 {
         font-size: 60px;
     }
@@ -38,6 +41,7 @@ const Header = styled.div`
 const Content = styled.div`
     margin-top: 50px;
     p {
+        margin: 30px;
         font-size: 30px;
     }
 `;

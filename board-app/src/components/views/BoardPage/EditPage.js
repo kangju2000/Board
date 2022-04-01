@@ -31,7 +31,7 @@ export default function EditPage() {
                     name="title"
                     rules={[{ required: true, message: "제목을 입력하세요" }]}
                 >
-                    <TitleInput />
+                    <TitleInput border={false} />
                 </Form.Item>
                 <Form.Item
                     name="content"
