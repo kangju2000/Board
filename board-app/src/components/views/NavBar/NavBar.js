@@ -27,7 +27,6 @@ const NavigationBar = styled(Navbar)`
     width: 100%;
     position: sticky;
     top: 0;
-    background-color: white;
     z-index: 5;
 `;
 const NavContainer = styled.div`
@@ -37,12 +36,6 @@ const NavContainer = styled.div`
     justify-content: space-between;
     align-items: center;
 `;
-// const NavSideBtn = styled(Navbar.Toggle)`
-//     border: 0 !important;
-// `;
-// const SideBar = styled(Navbar.Offcanvas)`
-//     width: 250px;
-// `;
 const NavTitle = styled(Navbar.Brand)`
     flex-grow: 1;
     font-size: 25px;

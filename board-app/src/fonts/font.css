@@ -1,0 +1,23 @@
+@font-face {
+    font-family: "Suit-medium";
+    src: url("./SUIT-woff2/SUIT-Medium.woff2") format("truetype");
+}
+@font-face {
+    font-family: "Suit-Bold";
+    src: url("./SUIT-woff2/SUIT-Bold.woff2") format("truetype");
+}
+@font-face {
+    font-family: "cafe-font";
+    src: url("./Cafe24SsurroundAir.ttf") format("truetype");
+}
+@font-face {
+    font-family: "cafe-font-bold";
+    src: url("./Cafe24Ssurround.ttf") format("truetype");
+}
+
+.fastcss {
+    background-color: rgb(80, 80, 80);
+    flex-grow: 1;
+    color: rgb(219, 82, 82);
+    
+    }

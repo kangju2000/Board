@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-export const BodyColor = "#F7F7F7";
+export const BodyColor = "#FAFAFA";
 export const ButtonColor = "#E6D5B8";
 
 export const DefaultDiv = styled.div`

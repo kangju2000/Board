@@ -102,6 +102,7 @@ const MainDiv = styled(DefaultDiv)`
 
 const SideDiv = styled.div`
     background-color: white;
+    border-radius: 10px;
     width: 20%;
     height: 50vh;
     margin-right: 10px;
@@ -109,6 +110,7 @@ const SideDiv = styled.div`
 
 const MainContentsDiv = styled.div`
     background-color: white;
+    border-radius: 10px;
     width: 50%;
     height: 80vh;
     margin-right: 10px;
@@ -116,6 +118,7 @@ const MainContentsDiv = styled.div`
 
 const ProfileDiv = styled.div`
     background-color: white;
+    border-radius: 10px;
     width: 30%;
     height: 50vh;
 `;
