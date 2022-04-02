@@ -10,6 +10,7 @@ import UserOnly from "./hoc/UserOnly";
 import PostPage from "./components/views/BoardPage/PostPage";
 import ProfilePage from "./components/views/ProfilePage/ProfilePage";
 import EditPage from "./components/views/BoardPage/EditPage";
+import SelectPage from "./components/views/ProfilePage/SelectPage";
 
 export default function App() {
     return (
@@ -45,10 +46,26 @@ export default function App() {
                     path="/profile"
                     element={
                         <PrivateRoute>
-                            <ProfilePage option={true} />
+                            <SelectPage option={true} />
                         </PrivateRoute>
                     }
                 />
+                <Route
+                    path="/profile"
+                    element={
+                        <PrivateRoute>
+                            <SelectPage option={true} />
+                        </PrivateRoute>
+                    }
+                />
+                {/* <Route
+                    path="/profile"
+                    element={
+                        <PrivateRoute>
+                            <ProfilePage option={true} />
+                        </PrivateRoute>
+                    }
+                /> */}
                 <Route
                     path="/add"
                     element={

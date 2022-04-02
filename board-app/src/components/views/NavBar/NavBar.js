@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Navbar, Nav, Offcanvas } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { DefaultLink } from "../../../styles/styles";
 
 export default function NavBar() {
+    const user = useSelector((state) => state.user.userData);
     return (
         <NavigationBar expand={false}>
             <NavContainer>
@@ -15,7 +17,9 @@ export default function NavBar() {
                         <NavLoginBtn>게시판</NavLoginBtn>
                     </DefaultLink>
                     <DefaultLink to="/login">
-                        <NavLoginBtn>로그인</NavLoginBtn>
+                        <NavLoginBtn>
+                            {user.isAuth ? user.name : "로그인"}
+                        </NavLoginBtn>
                     </DefaultLink>
                 </NavRight>
             </NavContainer>

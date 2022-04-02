@@ -5,12 +5,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Select, Button, Modal } from "antd";
 import axios from "axios";
+import { auth } from "../../../_actions/user_action";
 
 const { Option } = Select;
 export default function ProfilePage() {
     const userData = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [form] = Form.useForm();
+
+    const formItemLayout = {
+        labelCol: {
+            xs: { span: 24 },
+            sm: { span: 4 },
+        },
+        wrapperCol: {
+            xs: { span: 24 },
+            sm: { span: 16 },
+        },
+    };
 
     const validatePassword = useCallback((_, value) => {
         const regExp =
@@ -34,22 +47,20 @@ export default function ProfilePage() {
             intro: values.intro,
         };
         axios.post("/api/users/profile", user).then((res) => {
+            dispatch(auth()).then((res) => console.log(res));
             navigate("/board");
         });
     };
 
-    const success = () => {
-        Modal.success({
-            content: "some messages...some messages...",
-        });
-    };
     return (
         <MainDiv>
             <h1>프로필 수정 페이지</h1>
             <Form
+                {...formItemLayout}
                 form={form}
                 name="profile"
                 onFinish={onFinishHandler}
+                size="large"
                 scrollToFirstError
             >
                 <Form.Item
@@ -131,11 +142,9 @@ export default function ProfilePage() {
                     <Input.TextArea showCount maxLength={100} />
                 </Form.Item>
 
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                        프로필 수정
-                    </Button>
-                </Form.Item>
+                <ButtonStyle type="primary" size="large" htmlType="submit">
+                    프로필 수정
+                </ButtonStyle>
             </Form>
         </MainDiv>
     );
@@ -144,6 +153,10 @@ export default function ProfilePage() {
 const MainDiv = styled(DefaultDiv)`
     padding: 30px;
     text-align: center;
-    width: 500px;
-    margin: 0 auto;
+    width: 100$;
+`;
+
+const ButtonStyle = styled(Button)`
+    margin-top: 30px;
+    width: 60%;
 `;

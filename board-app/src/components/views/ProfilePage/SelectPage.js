@@ -1,36 +1,59 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { DefaultDiv } from "../../../styles/styles";
-import { useDispatch } from "react-redux";
-import { RegisterUser } from "../../../_actions/user_action";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Select, Button } from "antd";
+import axios from "axios";
+import { auth } from "../../../_actions/user_action";
 
+const formItemLayout = {
+    labelCol: {
+        xs: { span: 24 },
+        sm: { span: 4 },
+    },
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+    },
+};
 const { Option } = Select;
-export default function RegisterPage() {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+function SelectPage() {
+    const [PwdForm, SetpwdForm] = useState(false);
+    const [ProfileForm, SetprofileForm] = useState(false);
+    const userData = useSelector((state) => state.user.userData);
+
+    return (
+        <DefaultDiv>
+            <SelectDiv>
+                <ButtonStyle
+                    type="primary"
+                    onClick={() => {
+                        SetprofileForm(false);
+                        SetpwdForm(true);
+                    }}
+                >
+                    비밀번호 변경
+                </ButtonStyle>
+                <ButtonStyle
+                    type="primary"
+                    onClick={() => {
+                        SetpwdForm(false);
+                        SetprofileForm(true);
+                    }}
+                >
+                    프로필 변경
+                </ButtonStyle>
+            </SelectDiv>
+            {PwdForm === true ? <PwdDiv userData={userData} /> : null}
+            {ProfileForm === true ? <ProfileDiv userData={userData} /> : null}
+        </DefaultDiv>
+    );
+}
+const PwdDiv = (props) => {
     const [form] = Form.useForm();
-
-    const formItemLayout = {
-        labelCol: {
-            xs: { span: 24 },
-            sm: { span: 4 },
-        },
-        wrapperCol: {
-            xs: { span: 24 },
-            sm: { span: 16 },
-        },
-    };
-
-    const validateEmail = useCallback((_, value) => {
-        const regExp =
-            /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-        if (!value.match(regExp)) {
-            return Promise.reject(new Error("올바른 이메일 형식이 아닙니다."));
-        }
-        return Promise.resolve();
-    }, []);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const validatePassword = useCallback((_, value) => {
         const regExp =
@@ -45,47 +68,26 @@ export default function RegisterPage() {
         return Promise.resolve();
     }, []);
 
-    const onFinishHandler = (values) => {
+    const onPwdFinishHandler = (values) => {
         let user = {
-            name: values.name,
-            email: values.email,
+            email: props.userData.email,
             password: values.password,
-            gender: values.gender,
-            intro: values.intro,
         };
-        dispatch(RegisterUser(user)).then((res) => {
-            if (res.payload.success) {
-                navigate("/login");
-            } else {
-                alert("Error");
-            }
+        axios.post("/api/users/profile", user).then((res) => {
+            dispatch(auth()).then((res) => console.log(res));
+            navigate("/board");
         });
     };
-
     return (
-        <MainDiv>
-            <h1>회원가입</h1>
+        <>
             <Form
                 {...formItemLayout}
                 form={form}
-                name="register"
-                onFinish={onFinishHandler}
+                name="profile"
+                onFinish={onPwdFinishHandler}
+                size="large"
                 scrollToFirstError
             >
-                <Form.Item
-                    name="email"
-                    label="이메일"
-                    rules={[
-                        {
-                            required: true,
-                            message: "이메일은 필수 항목입니다.",
-                        },
-                        { validator: validateEmail },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
-
                 <Form.Item
                     name="password"
                     label="비밀번호"
@@ -129,7 +131,38 @@ export default function RegisterPage() {
                 >
                     <Input.Password />
                 </Form.Item>
+            </Form>
+        </>
+    );
+};
+const ProfileDiv = (props) => {
+    const [form] = Form.useForm();
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const onProfileFinishHandler = (values) => {
+        let user = {
+            email: props.userData.email,
+            name: values.name,
+            gender: values.gender,
+            intro: values.intro,
+        };
+        axios.post("/api/users/profile", user).then((res) => {
+            dispatch(auth()).then((res) => console.log(res));
+            navigate("/board");
+        });
+    };
+
+    return (
+        <>
+            <Form
+                {...formItemLayout}
+                form={form}
+                name="profile"
+                onFinish={onProfileFinishHandler}
+                size="large"
+                scrollToFirstError
+            >
                 <Form.Item
                     name="name"
                     label="닉네임"
@@ -165,21 +198,25 @@ export default function RegisterPage() {
                     <Input.TextArea showCount maxLength={100} />
                 </Form.Item>
 
-                <ButtonStyle type="primary" htmlType="submit">
-                    회원가입
+                <ButtonStyle type="primary" size="large" htmlType="submit">
+                    프로필 수정
                 </ButtonStyle>
             </Form>
-        </MainDiv>
+        </>
     );
-}
+};
 
-const MainDiv = styled(DefaultDiv)`
-    padding: 30px;
-    text-align: center;
-    width: 100%;
+const SelectDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
 `;
-
 const ButtonStyle = styled(Button)`
-    margin-top: 30px;
-    width: 60%;
+    width: 30%;
+    max-width: 300px;
+    height: 100px;
+    margin-right: 30px;
+    font-size: 30px;
 `;
+
+export default SelectPage;
