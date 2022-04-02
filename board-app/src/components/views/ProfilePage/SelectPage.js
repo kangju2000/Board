@@ -26,7 +26,7 @@ function SelectPage() {
     return (
         <DefaultDiv>
             <SelectDiv>
-                <ButtonStyle
+                <SelectBtn
                     type="primary"
                     onClick={() => {
                         SetprofileForm(false);
@@ -34,8 +34,8 @@ function SelectPage() {
                     }}
                 >
                     비밀번호 변경
-                </ButtonStyle>
-                <ButtonStyle
+                </SelectBtn>
+                <SelectBtn
                     type="primary"
                     onClick={() => {
                         SetpwdForm(false);
@@ -43,7 +43,7 @@ function SelectPage() {
                     }}
                 >
                     프로필 변경
-                </ButtonStyle>
+                </SelectBtn>
             </SelectDiv>
             {PwdForm === true ? <PwdDiv userData={userData} /> : null}
             {ProfileForm === true ? <ProfileDiv userData={userData} /> : null}
@@ -79,7 +79,7 @@ const PwdDiv = (props) => {
         });
     };
     return (
-        <>
+        <PwdFormDiv>
             <Form
                 {...formItemLayout}
                 form={form}
@@ -131,10 +131,14 @@ const PwdDiv = (props) => {
                 >
                     <Input.Password />
                 </Form.Item>
+                <SubmitBtn type="primary" size="large" htmlType="submit">
+                    프로필 수정
+                </SubmitBtn>
             </Form>
-        </>
+        </PwdFormDiv>
     );
 };
+
 const ProfileDiv = (props) => {
     const [form] = Form.useForm();
 
@@ -154,7 +158,7 @@ const ProfileDiv = (props) => {
     };
 
     return (
-        <>
+        <ProfileFormDiv>
             <Form
                 {...formItemLayout}
                 form={form}
@@ -198,11 +202,11 @@ const ProfileDiv = (props) => {
                     <Input.TextArea showCount maxLength={100} />
                 </Form.Item>
 
-                <ButtonStyle type="primary" size="large" htmlType="submit">
+                <SubmitBtn type="primary" size="large" htmlType="submit">
                     프로필 수정
-                </ButtonStyle>
+                </SubmitBtn>
             </Form>
-        </>
+        </ProfileFormDiv>
     );
 };
 
@@ -211,12 +215,24 @@ const SelectDiv = styled.div`
     justify-content: center;
     padding-top: 20px;
 `;
-const ButtonStyle = styled(Button)`
+const SelectBtn = styled(Button)`
     width: 30%;
     max-width: 300px;
     height: 100px;
     margin-right: 30px;
     font-size: 30px;
+`;
+
+const PwdFormDiv = styled.div`
+    padding: 30px;
+    text-align: center;
+`;
+const ProfileFormDiv = styled.div`
+    padding: 30px;
+    text-align: center;
+`;
+const SubmitBtn = styled(Button)`
+    width: 70%;
 `;
 
 export default SelectPage;
