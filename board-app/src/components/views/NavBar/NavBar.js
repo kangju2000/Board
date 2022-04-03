@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { DefaultLink } from "../../../styles/styles";
 
-export default function NavBar() {
-    const user = useSelector((state) => state.user.userData);
+export default function NavBar(props) {
     return (
         <NavigationBar expand={false}>
             <NavContainer>
@@ -18,7 +17,9 @@ export default function NavBar() {
                     </DefaultLink>
                     <DefaultLink to="/login">
                         <NavLoginBtn>
-                            {user.isAuth ? user.name : "로그인"}
+                            {props.user.isAuth || false
+                                ? props.user.name
+                                : "로그인"}
                         </NavLoginBtn>
                     </DefaultLink>
                 </NavRight>

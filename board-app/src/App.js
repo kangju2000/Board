@@ -11,11 +11,14 @@ import PostPage from "./components/views/BoardPage/PostPage";
 import ProfilePage from "./components/views/ProfilePage/ProfilePage";
 import EditPage from "./components/views/BoardPage/EditPage";
 import SelectPage from "./components/views/ProfilePage/SelectPage";
+import { useSelector } from "react-redux";
 
 export default function App() {
+    const user = useSelector((state) => state.user.userData);
     return (
         <>
-            <NavBar />
+            {user ? <NavBar user={user} /> : null}
+
             <Routes>
                 <Route exact path="/" element={<LandingPage option={null} />} />
                 <Route
