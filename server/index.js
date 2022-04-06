@@ -109,7 +109,7 @@ app.get("/api/users/logout", auth, (req, res) => {
 app.get("/api/users/auth", auth, (req, res) => {
     // 여기까지 미들웨어(auth.js)를 통과해 왔다는 얘기는 Authentication이 True라는 말
     // 클라이언트에게 유저 정보 전달
-    res.status(200).json({
+    return res.status(200).json({
         _id: req.user._id,
         isAdmin: req.user.role === 0 ? false : true, // role이 0이면 일반 유저, 그외는 관리자
         isAuth: true,
@@ -189,6 +189,13 @@ app.post("/api/users/comment", (req, res) => {
 // 글 가져오기
 app.get("/api/getposts", (req, res) => {
     List.find({}).then((data) => {
-        res.json(data);
+        return res.json(data);
+    });
+});
+
+app.post("/api/getcomments", (req, res) => {
+    Comment.find({ post_id: req.body.post_id }).then((data) => {
+        console.log(data);
+        return res.json(data);
     });
 });

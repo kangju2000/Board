@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DefaultDiv, BodyColor, DefaultLink } from "../../../styles/styles";
 import styled from "styled-components";
@@ -11,12 +11,15 @@ function PostPage() {
     const location = useLocation();
     const post = location.state.post;
     const user = location.state.user;
+    const [comments, setComments] = useState([]);
+
     const onClickEditHandler = (e) => {
         if (user.email != post.email) {
             e.preventDefault();
             return alert("작성자만 수정할 수 있습니다.");
         }
     };
+
     const onClinkDeleteHandler = async () => {
         if (user.email != post.email) {
             return alert("작성자만 삭제할 수 있습니다.");
@@ -28,12 +31,28 @@ function PostPage() {
                 navigate("/board");
             });
     };
-    const onFinishHandler = async (values) => {
-        let newComment = { email: String, post_id: String, content: String };
+
+    const onFinishCommentHandler = async (values) => {
+        let newComment = {
+            name: user.name,
+            email: user.email,
+            post_id: post.post_id,
+            content: values.content,
+        };
         axios.post("/api/users/comment", newComment).then((res) => {
-            location.reload();
+            window.location.reload();
         });
     };
+    const getcomments = async () => {
+        await axios
+            .post("/api/getcomments", { post_id: post.post_id })
+            .then((res) => {
+                setComments(res.data);
+            });
+    };
+    useEffect(() => {
+        getcomments();
+    }, []);
     return (
         <PostDiv>
             <TitleDiv>
@@ -62,14 +81,45 @@ function PostPage() {
                     })}
             </ContentDiv>
             <ChatDiv>
-                <Form form={form} name="comment" onFinish={onFinishHandler}>
-                    <Input />
-                    <Button type="primary" htmlType="submit">
+                <ChatForm
+                    form={form}
+                    name="comment"
+                    onFinish={onFinishCommentHandler}
+                >
+                    <Form.Item name="content">
+                        <Input />
+                    </Form.Item>
+
+                    <CommentBtn type="primary" htmlType="submit">
                         댓글 쓰기
-                    </Button>
-                </Form>
+                    </CommentBtn>
+                </ChatForm>
+                <hr />
+                {comments &&
+                    comments.map((comment, id) => {
+                        return (
+                            <Comment
+                                comment={comment}
+                                // name={comment.name}
+                                // content={comment.content}
+                                // date={comment.writeDate}
+                                key={id}
+                            />
+                        );
+                    })}
             </ChatDiv>
         </PostDiv>
+    );
+}
+
+function Comment(props) {
+    const cmt = props.comment;
+    return (
+        <div>
+            <label>{cmt.name}</label>
+            <p>{cmt.content}</p>
+            <hr />
+        </div>
     );
 }
 
@@ -96,6 +146,16 @@ const ChatDiv = styled.div`
     padding: 10px;
     background-color: white;
     border-radius: 10px;
+`;
+const ChatForm = styled(Form)`
+    &:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+`;
+const CommentBtn = styled(Button)`
+    float: right;
 `;
 
 export default PostPage;
