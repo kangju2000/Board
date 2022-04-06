@@ -54,22 +54,6 @@ export default function App() {
                     }
                 />
                 <Route
-                    path="/profile"
-                    element={
-                        <PrivateRoute>
-                            <SelectPage option={true} />
-                        </PrivateRoute>
-                    }
-                />
-                {/* <Route
-                    path="/profile"
-                    element={
-                        <PrivateRoute>
-                            <ProfilePage option={true} />
-                        </PrivateRoute>
-                    }
-                /> */}
-                <Route
                     path="/add"
                     element={
                         <PrivateRoute>
@@ -77,7 +61,14 @@ export default function App() {
                         </PrivateRoute>
                     }
                 />
-                <Route path="/edit/:id" element={<EditPage option={true} />} />
+                <Route
+                    path="/edit/:id"
+                    element={
+                        <PrivateRoute>
+                            <EditPage option={true} />
+                        </PrivateRoute>
+                    }
+                />
                 <Route
                     path="/posts/:id"
                     element={

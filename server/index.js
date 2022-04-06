@@ -5,6 +5,7 @@ const app = express();
 const { User } = require("./models/User");
 const { List } = require("./models/List");
 const { Counter } = require("./models/Counter");
+const { Comment } = require("./models/Comment");
 const { auth } = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
 
@@ -30,19 +31,18 @@ mongoose
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
 });
-
-// app.get("/board", function (req, res) {
-//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-// });
-// app.get("/login", function (req, res) {
-//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-// });
-// app.get("/register", function (req, res) {
-//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-// });
-// app.get("/add", function (req, res) {
-//     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
-// });
+app.get("/board", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+});
+app.get("/login", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+});
+app.get("/register", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+});
+app.get("/add", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+});
 
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Listening on port ${process.env.PORT || 5000}`);
@@ -168,10 +168,21 @@ app.post("/api/users/editpost", (req, res) => {
 
 //글 삭제
 app.post("/api/users/deletepost", (req, res) => {
-    console.log(req.body.post_id)
+    console.log(req.body.post_id);
     List.deleteOne({ post_id: req.body.post_id }).then((doc) => {
         console.log("게시글 삭제 완료");
         return res.status(200).json({ success: true });
+    });
+});
+
+//댓글 기능
+app.post("/api/users/comment", (req, res) => {
+    const comment = new Comment(req.body);
+    comment.save((err, userInfo) => {
+        if (err) return res.json({ success: false, err });
+        return res.status(200).json({
+            success: true,
+        });
     });
 });
 

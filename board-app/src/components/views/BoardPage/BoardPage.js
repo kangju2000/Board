@@ -44,7 +44,12 @@ export default function BoardPage() {
 
                     {posts.map((post, id) => {
                         return (
-                            <Post post={post} post_id={post.post_id} key={id} />
+                            <Post
+                                post={post}
+                                user={user}
+                                post_id={post.post_id}
+                                key={id}
+                            />
                         );
                     })}
                 </MainContentsDiv>
@@ -80,6 +85,7 @@ function Post(props) {
             to={`/posts/${props.post_id}`}
             state={{
                 post: props.post,
+                user: props.user,
             }}
         >
             <div>

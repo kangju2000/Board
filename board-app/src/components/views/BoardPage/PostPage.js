@@ -6,16 +6,33 @@ import styled from "styled-components";
 import { Form, Input, Button } from "antd";
 
 function PostPage() {
+    const [form] = Form.useForm();
     const navigate = useNavigate();
     const location = useLocation();
     const post = location.state.post;
-
-    const onClickHandler = async () => {
+    const user = location.state.user;
+    const onClickEditHandler = (e) => {
+        if (user.email != post.email) {
+            e.preventDefault();
+            return alert("작성자만 수정할 수 있습니다.");
+        }
+    };
+    const onClinkDeleteHandler = async () => {
+        if (user.email != post.email) {
+            return alert("작성자만 삭제할 수 있습니다.");
+        }
         await axios
             .post("/api/users/deletepost", { post_id: post.post_id })
             .then((res) => {
+                alert("삭제되었습니다.");
                 navigate("/board");
             });
+    };
+    const onFinishHandler = async (values) => {
+        let newComment = { email: String, post_id: String, content: String };
+        axios.post("/api/users/comment", newComment).then((res) => {
+            location.reload();
+        });
     };
     return (
         <PostDiv>
@@ -29,9 +46,9 @@ function PostPage() {
                         post: post,
                     }}
                 >
-                    <Button>수정</Button>
+                    <Button onClick={onClickEditHandler}>수정</Button>
                 </DefaultLink>
-                <Button onClick={onClickHandler}>삭제</Button>
+                <Button onClick={onClinkDeleteHandler}>삭제</Button>
             </TitleDiv>
             <ContentDiv>
                 {post.content &&
@@ -39,21 +56,15 @@ function PostPage() {
                         return (
                             <>
                                 {line}
-
                                 <br />
                             </>
                         );
                     })}
             </ContentDiv>
             <ChatDiv>
-                <p>댓글</p>
-                <Form>
+                <Form form={form} name="comment" onFinish={onFinishHandler}>
                     <Input />
-                    <Button
-                        style={{ float: "right" }}
-                        type="primary"
-                        htmlType="submit"
-                    >
+                    <Button type="primary" htmlType="submit">
                         댓글 쓰기
                     </Button>
                 </Form>
@@ -79,7 +90,12 @@ const ContentDiv = styled.div`
     padding: 10px;
     background-color: white;
     border-radius: 10px;
+    margin-bottom: 10px;
 `;
-const ChatDiv = styled.div``;
+const ChatDiv = styled.div`
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+`;
 
 export default PostPage;
