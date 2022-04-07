@@ -17,6 +17,7 @@ export default function BoardPage() {
 
     const onClickHandler = async () => {
         await axios.get("/api/users/logout").then((res) => {
+            alert("로그아웃되었습니다.");
             navigate("/");
         });
     };

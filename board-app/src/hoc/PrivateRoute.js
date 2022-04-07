@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 export default function ({ children }) {
     const user = useSelector((state) => state.user.userData);
     const option = children.props.option;
+    if (user == null) return <Navigate to="/" />; //user값이 없을 때 랜딩 페이지로 이동
     if (option) return user.isAuth ? children : <Navigate to="/login" />;
     // option true 은 회원만 출입 가능, 비회원은 로그인 페이지로 이동
     // else if (option === "null") return children;
