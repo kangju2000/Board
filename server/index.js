@@ -43,6 +43,9 @@ app.get("/register", function (req, res) {
 app.get("/add", function (req, res) {
     res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
 });
+app.get("/post/:id", function (req, res) {
+    res.sendFile(path.join(__dirname, "../board-app/build/index.html"));
+});
 
 app.listen(process.env.PORT || 5000, () => {
     console.log(`Listening on port ${process.env.PORT || 5000}`);
@@ -168,9 +171,12 @@ app.post("/api/users/editpost", (req, res) => {
 
 //글 삭제
 app.post("/api/users/deletepost", (req, res) => {
-    console.log(req.body.post_id);
     List.deleteOne({ post_id: req.body.post_id }).then((doc) => {
         console.log("게시글 삭제 완료");
+    });
+    //게시글에 달린 댓글도 삭제
+    Comment.deleteMany({ post_id: req.body.post_id }).then((doc) => {
+        console.log("게시글 댓글삭제 완료");
         return res.status(200).json({ success: true });
     });
 });
@@ -186,6 +192,14 @@ app.post("/api/users/comment", (req, res) => {
     });
 });
 
+//댓글 삭제
+app.post("/api/users/deletecmt", (req, res) => {
+    Comment.deleteOne({ content: req.body.content }).then((doc) => {
+        console.log("댓글 삭제 완료");
+        return res.status(200).json({ success: true });
+    });
+});
+
 // 글 가져오기
 app.get("/api/getposts", (req, res) => {
     List.find({}).then((data) => {
@@ -195,7 +209,6 @@ app.get("/api/getposts", (req, res) => {
 
 app.post("/api/getcomments", (req, res) => {
     Comment.find({ post_id: req.body.post_id }).then((data) => {
-        console.log(data);
         return res.json(data);
     });
 });

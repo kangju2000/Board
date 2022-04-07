@@ -12,16 +12,15 @@ function PostPage() {
     const post = location.state.post;
     const user = location.state.user;
     const [comments, setComments] = useState([]);
-
     const onClickEditHandler = (e) => {
-        if (user.email != post.email) {
+        if (user.email !== post.email) {
             e.preventDefault();
             return alert("작성자만 수정할 수 있습니다.");
         }
     };
-
-    const onClinkDeleteHandler = async () => {
-        if (user.email != post.email) {
+    const writeDate = post.writeDate.split(/\.|T|-|:/);
+    const onClickDeleteHandler = async () => {
+        if (user.email !== post.email) {
             return alert("작성자만 삭제할 수 있습니다.");
         }
         await axios
@@ -57,7 +56,11 @@ function PostPage() {
         <PostDiv>
             <TitleDiv>
                 <h1>{post.title}</h1>
-                <p style={{ float: "right" }}>{post.writeDate}</p>
+                <p style={{ float: "right" }}>
+                    {`${writeDate[0]}년 ${writeDate[1]}월 ${writeDate[2]}일`}
+                    <br />
+                    {`${writeDate[3]}시 ${writeDate[4]}분 ${writeDate[5]}초`}
+                </p>
                 <p>{post.writer}</p>
                 <DefaultLink
                     to={`/edit/${post.post_id}`}
@@ -67,7 +70,7 @@ function PostPage() {
                 >
                     <Button onClick={onClickEditHandler}>수정</Button>
                 </DefaultLink>
-                <Button onClick={onClinkDeleteHandler}>삭제</Button>
+                <Button onClick={onClickDeleteHandler}>삭제</Button>
             </TitleDiv>
             <ContentDiv>
                 {post.content &&
@@ -98,13 +101,7 @@ function PostPage() {
                 {comments &&
                     comments.map((comment, id) => {
                         return (
-                            <Comment
-                                comment={comment}
-                                // name={comment.name}
-                                // content={comment.content}
-                                // date={comment.writeDate}
-                                key={id}
-                            />
+                            <Comment comment={comment} user={user} key={id} />
                         );
                     })}
             </ChatDiv>
@@ -114,10 +111,29 @@ function PostPage() {
 
 function Comment(props) {
     const cmt = props.comment;
+    console.log(cmt);
+    const writeDate = cmt.writeDate.split(/\.|T|-|:/);
+    const onClickCmtHandler = async () => {
+        if (props.user.email !== cmt.email) {
+            return alert("작성자만 삭제할 수 있습니다.");
+        }
+        await axios
+            .post("/api/users/deletecmt", { content: cmt.content })
+            .then((res) => {
+                alert("삭제되었습니다.");
+                window.location.reload();
+            });
+    };
     return (
         <div>
             <label>{cmt.name}</label>
             <p>{cmt.content}</p>
+            <p>
+                {`${writeDate[0]}년 ${writeDate[1]}월 ${writeDate[2]}일`}
+                <br />
+                {`${writeDate[3]}시 ${writeDate[4]}분 ${writeDate[5]}초`}
+            </p>
+            <Button onClick={onClickCmtHandler}>삭제</Button>
             <hr />
         </div>
     );
