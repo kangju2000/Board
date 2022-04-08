@@ -200,15 +200,25 @@ app.post("/api/users/deletecmt", (req, res) => {
     });
 });
 
+//게시글 검색 기능
+app.post("/api/search", (req, res) => {
+    List.find({ title: { $regex: req.body.title, $options: "i" } }).then(
+        (doc) => {
+            console.log(doc);
+            return res.json(doc);
+        }
+    );
+});
+
 // 글 가져오기
 app.post("/api/getposts", (req, res) => {
-    List.find({}).then((data) => {
-        return res.json(data);
+    List.find({}).then((doc) => {
+        return res.json(doc);
     });
 });
 
 app.post("/api/getcomments", (req, res) => {
-    Comment.find({ post_id: req.body.post_id }).then((data) => {
-        return res.json(data);
+    Comment.find({ post_id: req.body.post_id }).then((doc) => {
+        return res.json(doc);
     });
 });

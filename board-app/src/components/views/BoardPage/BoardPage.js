@@ -7,18 +7,24 @@ import { post } from "../../../_actions/post_action";
 import { useDispatch, useSelector } from "react-redux";
 import { UserOutlined } from "@ant-design/icons";
 import { DefaultLink } from "../../../styles/styles";
-import { Button } from "antd";
+import { Form, Input, Button } from "antd";
 
 export default function BoardPage() {
     const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [form] = Form.useForm();
     const [posts, setPosts] = useState([]);
 
     const onClickHandler = async () => {
         await axios.post("/api/users/logout").then((res) => {
             alert("로그아웃되었습니다.");
             navigate("/");
+        });
+    };
+    const onFinishSearchHandler = async (values) => {
+        axios.post("/api/search", values).then((res) => {
+            setPosts(res.data);
         });
     };
     const getPosts = async () => {
@@ -42,7 +48,16 @@ export default function BoardPage() {
                     <TitleDiv>
                         <h2>자유게시판</h2>
                     </TitleDiv>
-
+                    <FormDiv
+                        form={form}
+                        name="search"
+                        onFinish={onFinishSearchHandler}
+                    >
+                        <Form.Item name="title" style={{ width: "100%" }}>
+                            <Input />
+                        </Form.Item>
+                        <Button htmlType="submit">검색</Button>
+                    </FormDiv>
                     {posts.map((post, id) => {
                         return (
                             <Post
@@ -143,4 +158,8 @@ const ButtonDiv = styled.div`
         margin: 0 auto;
         margin-top: 10px;
     }
+`;
+
+const FormDiv = styled(Form)`
+    display: flex;
 `;
