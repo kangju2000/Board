@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DefaultDiv, BodyColor, DefaultLink } from "../../../styles/styles";
 import styled from "styled-components";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Row, Col } from "antd";
 
 function PostPage() {
     const [form] = Form.useForm();
@@ -12,23 +12,26 @@ function PostPage() {
     const post = location.state.post;
     const user = location.state.user;
     const [comments, setComments] = useState([]);
+    const writeDate = post.writeDate.split(/\.|T|-|:/);
+
     const onClickEditHandler = (e) => {
         if (user.email !== post.email) {
             e.preventDefault();
             return alert("작성자만 수정할 수 있습니다.");
         }
     };
-    const writeDate = post.writeDate.split(/\.|T|-|:/);
     const onClickDeleteHandler = async () => {
         if (user.email !== post.email) {
             return alert("작성자만 삭제할 수 있습니다.");
         }
-        await axios
-            .post("/api/users/deletepost", { post_id: post.post_id })
-            .then((res) => {
-                alert("삭제되었습니다.");
-                navigate("/board");
-            });
+        if (window.confirm("삭제하시겠습니까?")) {
+            await axios
+                .post("/api/users/deletepost", { post_id: post.post_id })
+                .then((res) => {
+                    alert("삭제되었습니다.");
+                    navigate("/board");
+                });
+        }
     };
 
     const onFinishCommentHandler = async (values) => {
@@ -49,19 +52,26 @@ function PostPage() {
                 setComments(res.data);
             });
     };
+    const addCount = async () => {
+        await axios.post("/api/count", { post_id: post.post_id }).then();
+    };
     useEffect(() => {
+        addCount();
         getcomments();
     }, []);
     return (
         <PostDiv>
             <TitleDiv>
                 <h1>{post.title}</h1>
-                <p style={{ float: "right" }}>
-                    {`${writeDate[0]}년 ${writeDate[1]}월 ${writeDate[2]}일`}
+                <p>
+                    {post.writer}
                     <br />
-                    {`${writeDate[3]}시 ${writeDate[4]}분 ${writeDate[5]}초`}
+                    {`조회수: ${post.views}`}
+                    <br />
+                    {`${writeDate[0]}.${writeDate[1]}.${writeDate[2]}`}
+                    <br />
+                    {`${writeDate[3]}:${writeDate[4]}:${writeDate[5]}`}
                 </p>
-                <p>{post.writer}</p>
                 <DefaultLink
                     to={`/edit/${post.post_id}`}
                     state={{
@@ -111,31 +121,35 @@ function PostPage() {
 
 function Comment(props) {
     const cmt = props.comment;
-    console.log(cmt);
     const writeDate = cmt.writeDate.split(/\.|T|-|:/);
+
     const onClickCmtHandler = async () => {
         if (props.user.email !== cmt.email) {
             return alert("작성자만 삭제할 수 있습니다.");
         }
-        await axios
-            .post("/api/users/deletecmt", { content: cmt.content })
-            .then((res) => {
-                alert("삭제되었습니다.");
-                window.location.reload();
-            });
+        if (window.confirm("삭제하시겠습니까?")) {
+            await axios
+                .post("/api/users/deletecmt", { content: cmt.content })
+                .then((res) => {
+                    alert("삭제되었습니다.");
+                    window.location.reload();
+                });
+        }
     };
     return (
-        <div>
-            <label>{cmt.name}</label>
-            <p>{cmt.content}</p>
-            <p>
-                {`${writeDate[0]}년 ${writeDate[1]}월 ${writeDate[2]}일`}
-                <br />
-                {`${writeDate[3]}시 ${writeDate[4]}분 ${writeDate[5]}초`}
+        <>
+            <p style={({ fontSize: "16px" }, { fontWeight: "bold" })}>
+                {cmt.name}
             </p>
-            <Button onClick={onClickCmtHandler}>삭제</Button>
-            <hr />
-        </div>
+            <p>{cmt.content}</p>
+            <p style={{ fontSize: "11px" }}>
+                {`${writeDate[0]}.${writeDate[1]}.${writeDate[2]} ${writeDate[3]}:${writeDate[4]}:${writeDate[5]} `}
+                <Button onClick={onClickCmtHandler} size="small">
+                    삭제
+                </Button>
+            </p>
+            <br />
+        </>
     );
 }
 

@@ -222,3 +222,12 @@ app.post("/api/getcomments", (req, res) => {
         return res.json(doc);
     });
 });
+
+app.post("/api/count", (req, res) => {
+    List.findOneAndUpdate(
+        { post_id: req.body.post_id },
+        { $inc: { views: 1 } }
+    ).then((doc) => {
+        return res.status(200).json({ success: true });
+    });
+});

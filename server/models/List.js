@@ -15,6 +15,7 @@ const listSchema = mongoose.Schema({
     email: String,
     title: String,
     content: String,
+    views: { type: Number, default: 0 },
     writeDate: {
         type: Date,
         default: () => getCurrentDate(),

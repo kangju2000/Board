@@ -104,15 +104,20 @@ function Post(props) {
                 user: props.user,
             }}
         >
-            <div>
+            <PostDiv>
                 <p>작성자: {props.post.writer}</p>
                 <p>제목: {props.post.title}</p>
-                <hr />
-            </div>
+                <p>조회수: {props.post.views}</p>
+            </PostDiv>
         </DefaultLink>
     );
 }
-
+const PostDiv = styled.div`
+    border-top: 3px solid ${BodyColor};
+    &:hover {
+        background-color: ${BodyColor};
+    }
+`;
 const MainDiv = styled(DefaultDiv)`
     padding: 30px;
     display: flex;
@@ -134,7 +139,6 @@ const MainContentsDiv = styled.div`
     background-color: white;
     border-radius: 10px;
     width: 50%;
-    height: 80vh;
     margin-right: 10px;
 `;
 
@@ -142,7 +146,6 @@ const ProfileDiv = styled.div`
     background-color: white;
     border-radius: 10px;
     width: 30%;
-    height: 50vh;
 `;
 
 const TitleDiv = styled.div`
