@@ -16,7 +16,7 @@ export default function BoardPage() {
     const [posts, setPosts] = useState([]);
 
     const onClickHandler = async () => {
-        await axios.get("/api/users/logout").then((res) => {
+        await axios.post("/api/users/logout").then((res) => {
             alert("로그아웃되었습니다.");
             navigate("/");
         });
