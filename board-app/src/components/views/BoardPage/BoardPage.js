@@ -7,7 +7,7 @@ import { post } from "../../../_actions/post_action";
 import { useDispatch, useSelector } from "react-redux";
 import { UserOutlined } from "@ant-design/icons";
 import { DefaultLink } from "../../../styles/styles";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Col, Row } from "antd";
 
 export default function BoardPage() {
     const user = useSelector((state) => state.user.userData);
@@ -27,6 +27,7 @@ export default function BoardPage() {
             setPosts(res.data);
         });
     };
+    //useCallback 쓰기
     const getPosts = async () => {
         await dispatch(post()).then((res) => {
             setPosts(res.payload);
@@ -44,7 +45,7 @@ export default function BoardPage() {
                         <h2>목록</h2>
                     </TitleDiv>
                 </SideDiv>
-                <MainContentsDiv>
+                <MainContentDiv>
                     <TitleDiv>
                         <h2>자유게시판</h2>
                     </TitleDiv>
@@ -68,7 +69,7 @@ export default function BoardPage() {
                             />
                         );
                     })}
-                </MainContentsDiv>
+                </MainContentDiv>
                 <ProfileDiv>
                     <TitleDiv>
                         <h2>프로필</h2>
@@ -105,9 +106,17 @@ function Post(props) {
             }}
         >
             <PostDiv>
-                <p>작성자: {props.post.writer}</p>
-                <p>제목: {props.post.title}</p>
-                <p>조회수: {props.post.views}</p>
+                <Row gutter={24}>
+                    <Col span={12}>
+                        <p>{props.post.title}</p>
+                    </Col>
+                    <Col span={6}>
+                        <p>{props.post.writer}</p>
+                    </Col>
+                    <Col span={6}>
+                        <p>{props.post.views}</p>
+                    </Col>
+                </Row>
             </PostDiv>
         </DefaultLink>
     );
@@ -135,11 +144,14 @@ const SideDiv = styled.div`
     margin-right: 10px;
 `;
 
-const MainContentsDiv = styled.div`
+const MainContentDiv = styled.div`
     background-color: white;
     border-radius: 10px;
     width: 50%;
     margin-right: 10px;
+    @media only screen and (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 const ProfileDiv = styled.div`

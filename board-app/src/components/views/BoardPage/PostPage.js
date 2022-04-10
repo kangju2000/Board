@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DefaultDiv, BodyColor, DefaultLink } from "../../../styles/styles";
+import { DefaultDiv, DefaultLink } from "../../../styles/styles";
 import styled from "styled-components";
-import { Form, Input, Button, Row, Col } from "antd";
+import { Form, Input, Button } from "antd";
+import { useSelector } from "react-redux";
 
 function PostPage() {
     const [form] = Form.useForm();
@@ -11,6 +12,11 @@ function PostPage() {
     const location = useLocation();
     const post = location.state.post;
     const user = location.state.user;
+
+    const a = useSelector((state) => state.post.getPosts);
+    // console.log(a[parseInt(params.id)]);
+    
+
     const [comments, setComments] = useState([]);
     const writeDate = post.writeDate.split(/\.|T|-|:/);
 
@@ -58,7 +64,8 @@ function PostPage() {
     useEffect(() => {
         addCount();
         getcomments();
-    }, []);
+    });
+
     return (
         <PostDiv>
             <TitleDiv>

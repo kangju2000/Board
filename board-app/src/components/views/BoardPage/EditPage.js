@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { DefaultDiv } from "../../../styles/styles";
 import { Form, Input, Button } from "antd";
+import { useSelector } from "react-redux";
 
 export default function EditPage() {
     const [form] = Form.useForm();
@@ -11,7 +12,7 @@ export default function EditPage() {
     const location = useLocation();
     let { id } = useParams();
 
-    console.log(location.state.post); //수정이니까 input안에 기존에 썼던 제목, 내용을 프론트에 보여주고 싶은데 어떻게 할까?
+    // console.log(location.state.post.title); //수정이니까 input안에 기존에 썼던 제목, 내용을 프론트에 보여주고 싶은데 어떻게 할까?
 
     const onFinishHandler = async (values) => {
         let newPost = {
@@ -23,7 +24,14 @@ export default function EditPage() {
             navigate("/board");
         });
     };
-
+    // const [title, setTitle] = useState({});
+    // const [content, setContent] = useState({});
+    // const aa = (e) => {
+    //     setTitle({ [e.target.name]: e.target.value });
+    // };
+    // const bb = (e) => {
+    //     setContent({ [e.target.name]: location.state.post.content });
+    // };
     return (
         <AddDiv>
             <Form form={form} name="editpost" onFinish={onFinishHandler}>
@@ -31,7 +39,9 @@ export default function EditPage() {
                     name="title"
                     rules={[{ required: true, message: "제목을 입력하세요" }]}
                 >
-                    <TitleInput border={false} />
+                    <TitleInput
+                    // name="aaa" value={title} onChange={aa}
+                    />
                 </Form.Item>
                 <Form.Item
                     name="content"
@@ -42,6 +52,7 @@ export default function EditPage() {
                         showCount
                         size="large"
                         maxLength={1000}
+                        // value={content}
                     />
                 </Form.Item>
                 <Form.Item>
