@@ -139,14 +139,22 @@ const PostDiv = styled.div`
     border-top: 3px solid ${BodyColor};
     p {
         padding: 10px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
     }
     &:hover {
         background-color: ${BodyColor};
     }
 `;
 const HeaderPostDiv = styled(PostDiv)`
+    border-top: none;
+    p {
+        padding: 0px;
+        font-family: "Suit-Bold";
+    }
     &:hover {
-        background-color: none;
+        background-color: white;
     }
 `;
 const MainDiv = styled(DefaultDiv)`
@@ -183,6 +191,7 @@ const ProfileDiv = styled.div`
 `;
 
 const TitleDiv = styled.div`
+    font-family: "Suit-Bold";
     border-bottom: 3px solid ${BodyColor};
 `;
 
