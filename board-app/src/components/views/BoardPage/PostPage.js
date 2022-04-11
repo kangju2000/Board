@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DefaultDiv, DefaultLink } from "../../../styles/styles";
 import styled from "styled-components";
@@ -14,8 +14,6 @@ function PostPage() {
     const user = location.state.user;
 
     const a = useSelector((state) => state.post.getPosts);
-    // console.log(a[parseInt(params.id)]);
-    
 
     const [comments, setComments] = useState([]);
     const writeDate = post.writeDate.split(/\.|T|-|:/);
@@ -39,7 +37,6 @@ function PostPage() {
                 });
         }
     };
-
     const onFinishCommentHandler = async (values) => {
         let newComment = {
             name: user.name,
@@ -48,8 +45,14 @@ function PostPage() {
             content: values.content,
         };
         axios.post("/api/users/comment", newComment).then((res) => {
-            window.location.reload();
+            getcomments();
+            // 잠깐 떴다 사라지는 알림 모달 창 만들기
         });
+    };
+    const addCount = async () => {
+        await axios
+            .post("/api/count", { post_id: post.post_id })
+            .then(() => {});
     };
     const getcomments = async () => {
         await axios
@@ -58,13 +61,10 @@ function PostPage() {
                 setComments(res.data);
             });
     };
-    const addCount = async () => {
-        await axios.post("/api/count", { post_id: post.post_id }).then();
-    };
     useEffect(() => {
         addCount();
         getcomments();
-    });
+    }, []);
 
     return (
         <PostDiv>
@@ -126,10 +126,10 @@ function PostPage() {
     );
 }
 
+//props 안쓰고 새로운 컴포넌트 만들어서 구현하기
 function Comment(props) {
     const cmt = props.comment;
     const writeDate = cmt.writeDate.split(/\.|T|-|:/);
-
     const onClickCmtHandler = async () => {
         if (props.user.email !== cmt.email) {
             return alert("작성자만 삭제할 수 있습니다.");
@@ -139,7 +139,6 @@ function Comment(props) {
                 .post("/api/users/deletecmt", { content: cmt.content })
                 .then((res) => {
                     alert("삭제되었습니다.");
-                    window.location.reload();
                 });
         }
     };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { BodyColor, DefaultDiv } from "../../../styles/styles";
@@ -28,14 +28,14 @@ export default function BoardPage() {
         });
     };
     //useCallback 쓰기
-    const getPosts = async () => {
+    const getPosts = useCallback(async () => {
         await dispatch(post()).then((res) => {
             setPosts(res.payload);
         });
-    };
+    }, [setPosts]);
     useEffect(() => {
         getPosts();
-    }, []);
+    }, [getPosts]);
 
     return (
         <DefaultDiv>
@@ -49,16 +49,20 @@ export default function BoardPage() {
                     <TitleDiv>
                         <h2>자유게시판</h2>
                     </TitleDiv>
-                    <FormDiv
-                        form={form}
-                        name="search"
-                        onFinish={onFinishSearchHandler}
-                    >
-                        <Form.Item name="title" style={{ width: "100%" }}>
-                            <Input />
-                        </Form.Item>
-                        <Button htmlType="submit">검색</Button>
-                    </FormDiv>
+
+                    <HeaderPostDiv>
+                        <Row gutter={24}>
+                            <Col span={12}>
+                                <p>제목</p>
+                            </Col>
+                            <Col span={6}>
+                                <p>작성자</p>
+                            </Col>
+                            <Col span={6}>
+                                <p>조회수</p>
+                            </Col>
+                        </Row>
+                    </HeaderPostDiv>
                     {posts.map((post, id) => {
                         return (
                             <Post
@@ -69,6 +73,16 @@ export default function BoardPage() {
                             />
                         );
                     })}
+                    <FormDiv
+                        form={form}
+                        name="search"
+                        onFinish={onFinishSearchHandler}
+                    >
+                        <Form.Item name="title" style={{ width: "100%" }}>
+                            <Input />
+                        </Form.Item>
+                        <Button htmlType="submit">검색</Button>
+                    </FormDiv>
                 </MainContentDiv>
                 <ProfileDiv>
                     <TitleDiv>
@@ -123,8 +137,16 @@ function Post(props) {
 }
 const PostDiv = styled.div`
     border-top: 3px solid ${BodyColor};
+    p {
+        padding: 10px;
+    }
     &:hover {
         background-color: ${BodyColor};
+    }
+`;
+const HeaderPostDiv = styled(PostDiv)`
+    &:hover {
+        background-color: none;
     }
 `;
 const MainDiv = styled(DefaultDiv)`
@@ -177,4 +199,5 @@ const ButtonDiv = styled.div`
 
 const FormDiv = styled(Form)`
     display: flex;
+    background-color: ${BodyColor};
 `;

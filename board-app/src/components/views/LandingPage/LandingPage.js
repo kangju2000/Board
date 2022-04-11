@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { DefaultDiv } from "../../../styles/styles";
+import { DefaultDiv, BodyColor } from "../../../styles/styles";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 import { auth } from "../../../_actions/user_action";
@@ -14,14 +14,14 @@ export default function LandingPage() {
     return (
         <MainDiv>
             <Header>
-                <h1>게시판</h1>
+                <h1>👉게시판👈</h1>
             </Header>
             <Content>
                 <p>React+express 게시판입니다.</p>
                 <Link to="/board">
-                    <Button type="primary" size="large">
-                        게시판 이동
-                    </Button>
+                    <MainBtn type="primary" size="large">
+                        START
+                    </MainBtn>
                 </Link>
             </Content>
         </MainDiv>
@@ -44,4 +44,11 @@ const Content = styled.div`
         margin: 30px;
         font-size: 30px;
     }
+`;
+
+const MainBtn = styled(Button)`
+    width: 300px;
+    height: 100px;
+    font-size: 30px;
+    color: ${BodyColor};
 `;
