@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { DefaultDiv, DefaultLink } from "../../../styles/styles";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { BodyColor, DefaultDiv, DefaultLink } from "../../../styles/styles";
 import styled from "styled-components";
 import { Form, Input, Button } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 
 function PostPage() {
@@ -69,6 +70,11 @@ function PostPage() {
     return (
         <PostDiv>
             <TitleDiv>
+                <DefaultLink to="/board">
+                    <BackBtn>
+                        <ArrowLeftOutlined />
+                    </BackBtn>
+                </DefaultLink>
                 <h1>{post.title}</h1>
                 <p>
                     {post.writer}
@@ -165,7 +171,18 @@ const PostDiv = styled(DefaultDiv)`
     margin: 0 auto;
     margin-top: 50px;
 `;
+const BackBtn = styled.button`
+    position: absolute;
+    left: -60px;
+    background-color: ${BodyColor};
+    border: none;
+    font-size: 30px;
+    curser: pointer;
+    width: 50px;
+    height: 50px;
+`;
 const TitleDiv = styled.div`
+    position: relative;
     padding: 10px;
     margin-bottom: 10px;
     background-color: white;
