@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,11 +8,18 @@ import { Form, Input, Button } from "antd";
 
 export default function AddPage() {
     const [form] = Form.useForm();
+    const [postType, setPostType] = useState("free");
     const user = useSelector((state) => state.user.userData);
     const navigate = useNavigate();
 
+    const handleSelect = (e) => {
+        setPostType(e.target.value);
+    };
+
+    console.log(postType);
     const onFinishHandler = async (values) => {
         let newPost = {
+            post_type: postType,
             writer: user.name,
             email: user.email,
             title: values.title,
@@ -22,8 +29,17 @@ export default function AddPage() {
             navigate("/board");
         });
     };
+
     return (
         <AddDiv>
+            <select onChange={handleSelect} value={postType}>
+                <option key="free" value="free">
+                    자유게시판
+                </option>
+                <option key="question" value="question">
+                    질문게시판
+                </option>
+            </select>
             <Form form={form} name="addpost" onFinish={onFinishHandler}>
                 <Form.Item
                     name="title"

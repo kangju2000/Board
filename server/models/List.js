@@ -11,6 +11,7 @@ function getCurrentDate() {
 }
 const listSchema = mongoose.Schema({
     post_id: Number,
+    post_type: String,
     writer: String,
     email: String,
     title: String,

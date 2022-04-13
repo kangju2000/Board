@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import styled from "styled-components";
-import { BodyColor, DefaultDiv } from "../../../styles/styles";
 import { useNavigate } from "react-router-dom";
-import { post } from "../../../_actions/post_action";
+import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { BodyColor, DefaultDiv, DefaultLink } from "../../../styles/styles";
+import { post } from "../../../_actions/post_action";
 import { UserOutlined } from "@ant-design/icons";
-import { DefaultLink } from "../../../styles/styles";
 import { Form, Input, Button, Col, Row } from "antd";
 
 export default function BoardPage() {
@@ -15,7 +14,7 @@ export default function BoardPage() {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [posts, setPosts] = useState([]);
-
+    const [type, setType] = useState("");
     const onClickHandler = async () => {
         await axios.post("/api/users/logout").then((res) => {
             alert("로그아웃되었습니다.");
@@ -27,15 +26,15 @@ export default function BoardPage() {
             setPosts(res.data);
         });
     };
-    //useCallback 쓰기
-    const getPosts = useCallback(async () => {
-        await dispatch(post()).then((res) => {
+
+    const getPosts = async () => {
+        await dispatch(post({ post_type: type })).then((res) => {
             setPosts(res.payload);
         });
-    }, [setPosts]);
+    };
     useEffect(() => {
         getPosts();
-    }, [getPosts]);
+    }, [type]);
 
     return (
         <DefaultDiv>
@@ -44,6 +43,29 @@ export default function BoardPage() {
                     <TitleDiv>
                         <h2>목록</h2>
                     </TitleDiv>
+                    <ButtonDiv>
+                        <Button
+                            onClick={() => {
+                                setType("");
+                            }}
+                        >
+                            전체글
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setType("free");
+                            }}
+                        >
+                            자유게시판
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setType("question");
+                            }}
+                        >
+                            질문게시판
+                        </Button>
+                    </ButtonDiv>
                 </SideDiv>
                 <MainContentDiv>
                     <TitleDiv>
@@ -63,16 +85,18 @@ export default function BoardPage() {
                             </Col>
                         </Row>
                     </HeaderPostDiv>
-                    {posts.map((post, id) => {
-                        return (
-                            <Post
-                                post={post}
-                                user={user}
-                                post_id={post.post_id}
-                                key={id}
-                            />
-                        );
-                    })}
+                    <div style={{ height: "400px" }}>
+                        {posts.map((post, id) => {
+                            return (
+                                <Post
+                                    post={post}
+                                    user={user}
+                                    post_id={post.post_id}
+                                    key={id}
+                                />
+                            );
+                        })}
+                    </div>
                     <FormDiv
                         form={form}
                         name="search"
@@ -170,7 +194,7 @@ const SideDiv = styled.div`
     background-color: white;
     border-radius: 10px;
     width: 20%;
-    height: 50vh;
+    height: 200px;
     margin-right: 10px;
 `;
 
@@ -178,6 +202,7 @@ const MainContentDiv = styled.div`
     background-color: white;
     border-radius: 10px;
     width: 50%;
+    height: 500px;
     margin-right: 10px;
     @media only screen and (max-width: 768px) {
         width: 100%;
@@ -188,6 +213,7 @@ const ProfileDiv = styled.div`
     background-color: white;
     border-radius: 10px;
     width: 30%;
+    height: 400px;
 `;
 
 const TitleDiv = styled.div`
@@ -208,5 +234,5 @@ const ButtonDiv = styled.div`
 
 const FormDiv = styled(Form)`
     display: flex;
-    background-color: ${BodyColor};
+    background-color: none;
 `;

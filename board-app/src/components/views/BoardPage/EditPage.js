@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 
 export default function EditPage() {
     const [form] = Form.useForm();
+    const [postType, setPostType] = useState("free");
     const navigate = useNavigate();
     const location = useLocation();
     const [title, setTitle] = useState(location.state.post.title);
@@ -15,11 +16,15 @@ export default function EditPage() {
     let { id } = useParams();
 
     // console.log(location.state.post.title); //수정이니까 input안에 기존에 썼던 제목, 내용을 프론트에 보여주고 싶은데 어떻게 할까?
+    const handleSelect = (e) => {
+        setPostType(e.target.value);
+    };
 
     const onFinishHandler = async (values) => {
         console.log(values);
         let newPost = {
-            post_id: id,
+            post_id: id, //수정할 게시글 찾기 위해서 post_id 넣어줌
+            post_type: postType,
             title: title,
             content: content,
         };
@@ -37,6 +42,14 @@ export default function EditPage() {
     };
     return (
         <AddDiv>
+            <select onChange={handleSelect} value={postType}>
+                <option key="free" value="free">
+                    자유게시판
+                </option>
+                <option key="question" value="question">
+                    질문게시판
+                </option>
+            </select>
             <Form form={form} name="editpost" onFinish={onFinishHandler}>
                 <Form.Item
                     name="title"

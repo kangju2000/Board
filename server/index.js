@@ -212,17 +212,27 @@ app.post("/api/search", (req, res) => {
 
 // 글 가져오기
 app.post("/api/getposts", (req, res) => {
-    List.find({}).then((doc) => {
-        return res.json(doc);
-    });
+    if (req.body.post_type) {
+        // free:자유게시판, question:질문게시판
+        List.find({ post_type: req.body.post_type }).then((doc) => {
+            return res.json(doc);
+        });
+    } else {
+        //post_type이 ""일 때 전체 글 가져오기
+        List.find({}).then((doc) => {
+            return res.json(doc);
+        });
+    }
 });
 
+// 댓글 가져오기
 app.post("/api/getcomments", (req, res) => {
     Comment.find({ post_id: req.body.post_id }).then((doc) => {
         return res.json(doc);
     });
 });
 
+//조회수 기능
 app.post("/api/count", (req, res) => {
     List.findOneAndUpdate(
         { post_id: req.body.post_id },
