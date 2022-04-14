@@ -15,7 +15,7 @@ function PostPage() {
     const user = location.state.user;
 
     const a = useSelector((state) => state.post.getPosts);
-
+    console.log(a);
     const [comments, setComments] = useState([]);
     const writeDate = post.writeDate.split(/\.|T|-|:/);
 
@@ -47,6 +47,7 @@ function PostPage() {
         };
         axios.post("/api/users/comment", newComment).then((res) => {
             getcomments();
+            form.resetFields();
             // 잠깐 떴다 사라지는 알림 모달 창 만들기
         });
     };
@@ -75,6 +76,7 @@ function PostPage() {
                         <ArrowLeftOutlined />
                     </BackBtn>
                 </DefaultLink>
+                <PostTypeStr type={post.post_type} />
                 <h1>{post.title}</h1>
                 <p>
                     {post.writer}
@@ -112,11 +114,20 @@ function PostPage() {
                     name="comment"
                     onFinish={onFinishCommentHandler}
                 >
-                    <Form.Item name="content">
+                    <Form.Item
+                        name="content"
+                        rules={[
+                            { required: true, message: "댓글을 입력하세요" },
+                        ]}
+                    >
                         <Input />
                     </Form.Item>
 
-                    <CommentBtn type="primary" htmlType="submit">
+                    <CommentBtn
+                        type="primary"
+                        htmlType="submit"
+                        // onClick={handleClear}
+                    >
                         댓글 쓰기
                     </CommentBtn>
                 </ChatForm>
@@ -163,6 +174,12 @@ function Comment(props) {
             <br />
         </>
     );
+}
+
+function PostTypeStr(props) {
+    if (props.type === "free") return <p>자유게시판</p>;
+    else if (props.type === "question") return <p>질문게시판</p>;
+    else return <></>;
 }
 
 const PostDiv = styled(DefaultDiv)`
