@@ -13,9 +13,6 @@ function PostPage() {
     const location = useLocation();
     const post = location.state.post;
     const user = location.state.user;
-
-    const a = useSelector((state) => state.post.getPosts);
-    console.log(a);
     const [comments, setComments] = useState([]);
     const writeDate = post.writeDate.split(/\.|T|-|:/);
 

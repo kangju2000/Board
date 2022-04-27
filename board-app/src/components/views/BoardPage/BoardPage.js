@@ -13,8 +13,9 @@ export default function BoardPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [form] = Form.useForm();
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState([[], []]);
     const [type, setType] = useState("");
+    const [title, setTitle] = useState("자유게시판");
     const [page, setPage] = useState(1);
     const onClickHandler = async () => {
         await axios.post("/api/users/logout").then((res) => {
@@ -22,20 +23,39 @@ export default function BoardPage() {
             navigate("/");
         });
     };
+    const pageSlice = (arr) => {
+        let a = [];
+        let b = [];
+        for (let i = 0; i < arr.length; i++) {
+            if (i % 8 != 0) {
+                a.push(arr[i]);
+            } else {
+                b.push(a);
+                a = [];
+                a.push(arr[i]);
+            }
+        }
+        if (a.length != 0) b.push(a);
+        if (b.length != 0) setPosts(b);
+        else {
+            setPosts([[], []]);
+        }
+    };
+
     const onFinishSearchHandler = async (values) => {
-        axios.post("/api/search", values).then((res) => {
-            setPosts(res.data);
+        setPage(1);
+        await axios.post("/api/search", values).then((res) => {
+            pageSlice(res.data.reverse());
         });
     };
+
     const onChangePageHandler = async (value) => {
-        console.log(value);
+        setPage(value);
     };
 
     const getPosts = async () => {
         await dispatch(post({ post_type: type })).then((res) => {
-            let arr = res.payload.reverse();
-            for (let i = 0; i < arr.length; i++) {}
-            setPosts(arr);
+            pageSlice(res.payload.reverse());
         });
     };
     useEffect(() => {
@@ -52,21 +72,27 @@ export default function BoardPage() {
                     <ButtonDiv>
                         <Button
                             onClick={() => {
+                                setPage(1);
                                 setType("");
+                                setTitle("자유게시판");
                             }}
                         >
                             전체글
                         </Button>
                         <Button
                             onClick={() => {
+                                setPage(1);
                                 setType("free");
+                                setTitle("자유게시판");
                             }}
                         >
                             자유게시판
                         </Button>
                         <Button
                             onClick={() => {
+                                setPage(1);
                                 setType("question");
+                                setTitle("질문게시판");
                             }}
                         >
                             질문게시판
@@ -75,7 +101,7 @@ export default function BoardPage() {
                 </SideDiv>
                 <MainContentDiv>
                     <TitleDiv>
-                        <h2>자유게시판</h2>
+                        <h2>{title}</h2>
                     </TitleDiv>
 
                     <HeaderPostDiv>
@@ -92,7 +118,7 @@ export default function BoardPage() {
                         </Row>
                     </HeaderPostDiv>
                     <div style={{ height: "400px" }}>
-                        {posts.map((post, id) => {
+                        {posts[page].map((post, id) => {
                             return (
                                 <Post
                                     post={post}
@@ -116,7 +142,7 @@ export default function BoardPage() {
                     <Pagination
                         defaultCurrent={1}
                         onChange={onChangePageHandler}
-                        total={50}
+                        total={(posts.length - 1) * 10}
                     />
                 </MainContentDiv>
                 <ProfileDiv>
