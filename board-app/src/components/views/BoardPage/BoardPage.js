@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BodyColor, DefaultDiv, DefaultLink } from "../../../styles/styles";
 import { post } from "../../../_actions/post_action";
 import { UserOutlined } from "@ant-design/icons";
-import { Form, Input, Button, Col, Row } from "antd";
+import { Form, Input, Button, Col, Row, Pagination } from "antd";
 
 export default function BoardPage() {
     const user = useSelector((state) => state.user.userData);
@@ -15,6 +15,7 @@ export default function BoardPage() {
     const [form] = Form.useForm();
     const [posts, setPosts] = useState([]);
     const [type, setType] = useState("");
+    const [page, setPage] = useState(1);
     const onClickHandler = async () => {
         await axios.post("/api/users/logout").then((res) => {
             alert("로그아웃되었습니다.");
@@ -26,10 +27,15 @@ export default function BoardPage() {
             setPosts(res.data);
         });
     };
+    const onChangePageHandler = async (value) => {
+        console.log(value);
+    };
 
     const getPosts = async () => {
         await dispatch(post({ post_type: type })).then((res) => {
-            setPosts(res.payload);
+            let arr = res.payload.reverse();
+            for (let i = 0; i < arr.length; i++) {}
+            setPosts(arr);
         });
     };
     useEffect(() => {
@@ -107,6 +113,11 @@ export default function BoardPage() {
                         </Form.Item>
                         <Button htmlType="submit">검색</Button>
                     </FormDiv>
+                    <Pagination
+                        defaultCurrent={1}
+                        onChange={onChangePageHandler}
+                        total={50}
+                    />
                 </MainContentDiv>
                 <ProfileDiv>
                     <TitleDiv>
